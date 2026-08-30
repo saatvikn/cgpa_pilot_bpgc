@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test-db": "node scripts/testDatabase.js"
+    "test-db": "node scripts/testDatabase.js",
+    "migrate": "node scripts/runMigration.js"
   },
   "keywords": [],
   "author": "",
