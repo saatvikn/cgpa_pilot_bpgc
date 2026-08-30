@@ -5,6 +5,7 @@ const app = express();
 
 const clientUrl = process.env.CLIENT_URL || "http://localhost:3000";
 
+// CORS middleware
 app.use(
     cors({
         origin: clientUrl,
