@@ -8,7 +8,8 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "test-db": "node scripts/testDatabase.js",
-    "migrate": "node scripts/runMigration.js"
+    "migrate": "node scripts/runMigration.js",
+    "seed-courses": "node scripts/seedCourses.js"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +17,7 @@
   "type": "module",
   "dependencies": {
     "cors": "^2.8.6",
+    "csv-parse": "^7.0.2",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "pg": "^8.23.0"
