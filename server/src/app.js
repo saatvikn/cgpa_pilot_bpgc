@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import authRouter from "./routes/auth.routes.js";
 import courseRouter from "./routes/course.routes.js";
 
 const app = express();
@@ -13,11 +14,17 @@ app.use(
     })
 );
 
+// JSON body middleware.
+app.use(express.json());
+
 app.get("/api/health", (request, response) => {
     response.status(200).json({
         status: "ok",
     });
 });
+
+// Authentication API.
+app.use("/api/auth", authRouter);
 
 // Course catalogue API.
 app.use("/api/courses", courseRouter);
