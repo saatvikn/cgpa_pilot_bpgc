@@ -2,28 +2,20 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import pool from "../config/db.js";
 import {
+    AUTH_COOKIE_OPTIONS,
+    JWT_SECRET,
+    TOKEN_COOKIE_NAME,
+    TOKEN_LIFETIME_MS,
+} from "../config/auth.js";
+import {
     loginSchema,
     registerSchema,
 } from "../validation/auth.schemas.js";
 
-const TOKEN_COOKIE_NAME = "auth_token";
-const TOKEN_LIFETIME_MS = 7 * 24 * 60 * 60 * 1000;
-
-const AUTH_COOKIE_OPTIONS = {
-    httpOnly: true,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-    path: "/",
-};
-
-if (!process.env.JWT_SECRET || process.env.JWT_SECRET.length < 32) {
-    throw new Error("JWT_SECRET must contain at least 32 characters");
-}
-
 function setAuthCookie(response, userId) {
     const token = jwt.sign(
         { userId },
-        process.env.JWT_SECRET,
+        JWT_SECRET,
         { expiresIn: "7d" }
     );
 
@@ -165,40 +157,12 @@ export function logoutUser(request, response) {
 }
 
 export async function getCurrentUser(request, response) {
-    const token = request.cookies[TOKEN_COOKIE_NAME];
-
-    if (!token) {
-        return response.status(401).json({
-            error: "Authentication required",
-        });
-    }
-
-    let tokenPayload;
-
-    try {
-        // Verify the JWT signature and expiration.
-        tokenPayload = jwt.verify(
-            token,
-            process.env.JWT_SECRET
-        );
-
-        if (!tokenPayload.userId) {
-            throw new Error("Token does not contain a user ID");
-        }
-    } catch {
-        clearAuthCookie(response);
-
-        return response.status(401).json({
-            error: "Invalid or expired authentication",
-        });
-    }
-
     try {
         const userResult = await pool.query(
             `SELECT id, email, created_at
              FROM users
              WHERE id = $1`,
-            [tokenPayload.userId]
+            [request.userId]
         );
 
         if (userResult.rowCount === 0) {

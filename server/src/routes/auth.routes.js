@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { authenticateUser } from "../middleware/auth.middleware.js";
 import {
     getCurrentUser,
     loginUser,
@@ -18,6 +19,10 @@ authRouter.post("/login", loginUser);
 authRouter.post("/logout", logoutUser);
 
 // Return the authenticated user.
-authRouter.get("/me", getCurrentUser);
+authRouter.get(
+    "/me",
+    authenticateUser,
+    getCurrentUser
+);
 
 export default authRouter;

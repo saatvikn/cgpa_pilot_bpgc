@@ -28,7 +28,8 @@ cgpa_pilot_bpgc/
 |   |-- src/                        Code used while the API is running
 |   |   |-- server.js               Starts the HTTP server
 |   |   |-- app.js                  Configures middleware and mounts routes
-|   |   |-- config/                 Shared configuration
+|   |   |-- config/                 Shared application configuration
+|   |   |   |-- auth.js             Cookie and JWT configuration
 |   |   |   `-- db.js               PostgreSQL connection pool and SSL setup
 |   |   |-- routes/                 Maps HTTP methods and paths to controllers
 |   |   |   |-- auth.routes.js
@@ -36,6 +37,8 @@ cgpa_pilot_bpgc/
 |   |   |-- controllers/            Processes requests and creates responses
 |   |   |   |-- auth.controller.js
 |   |   |   `-- course.controller.js
+|   |   |-- middleware/             Functions that run before controllers
+|   |   |   `-- auth.middleware.js  Verifies JWTs and attaches the user ID
 |   |   `-- validation/             Zod request-validation rules
 |   |       `-- auth.schemas.js
 |   |-- sql/                        Version-controlled database structure
@@ -70,8 +73,9 @@ This is the backend application code:
 - `app.js` assembles the Express application.
 - `routes/` decides which controller handles an endpoint.
 - `controllers/` validates the request flow, runs application logic, queries PostgreSQL, and sends the response.
+- `middleware/` contains reusable request checks such as JWT authentication.
 - `validation/` contains reusable Zod schemas.
-- `config/` contains shared infrastructure such as the database pool.
+- `config/` contains shared settings such as authentication options and the database pool.
 
 The usual backend flow is:
 
