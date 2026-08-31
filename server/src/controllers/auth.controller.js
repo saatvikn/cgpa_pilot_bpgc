@@ -1,13 +1,44 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import pool from "../config/db.js";
-import { registerSchema } from "../validation/auth.schemas.js";
+import {
+    loginSchema,
+    registerSchema,
+} from "../validation/auth.schemas.js";
 
 const TOKEN_COOKIE_NAME = "auth_token";
 const TOKEN_LIFETIME_MS = 7 * 24 * 60 * 60 * 1000;
 
+const AUTH_COOKIE_OPTIONS = {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+};
+
 if (!process.env.JWT_SECRET || process.env.JWT_SECRET.length < 32) {
     throw new Error("JWT_SECRET must contain at least 32 characters");
+}
+
+function setAuthCookie(response, userId) {
+    const token = jwt.sign(
+        { userId },
+        process.env.JWT_SECRET,
+        { expiresIn: "7d" }
+    );
+
+    // Store the JWT in an HTTP-only cookie.
+    response.cookie(TOKEN_COOKIE_NAME, token, {
+        ...AUTH_COOKIE_OPTIONS,
+        maxAge: TOKEN_LIFETIME_MS,
+    });
+}
+
+function clearAuthCookie(response) {
+    response.clearCookie(
+        TOKEN_COOKIE_NAME,
+        AUTH_COOKIE_OPTIONS
+    );
 }
 
 export async function registerUser(request, response) {
@@ -47,20 +78,7 @@ export async function registerUser(request, response) {
 
         const user = insertResult.rows[0];
 
-        const token = jwt.sign(
-            { userId: user.id },
-            process.env.JWT_SECRET,
-            { expiresIn: "7d" }
-        );
-
-        // Store the JWT in an HTTP-only cookie.
-        response.cookie(TOKEN_COOKIE_NAME, token, {
-            httpOnly: true,
-            sameSite: "lax",
-            secure: process.env.NODE_ENV === "production",
-            maxAge: TOKEN_LIFETIME_MS,
-            path: "/",
-        });
+        setAuthCookie(response, user.id);
 
         return response.status(201).json({ user });
     } catch (error) {
@@ -75,6 +93,133 @@ export async function registerUser(request, response) {
 
         return response.status(500).json({
             error: "Could not register user",
+        });
+    }
+}
+
+export async function loginUser(request, response) {
+    const validationResult = loginSchema.safeParse(request.body);
+
+    if (!validationResult.success) {
+        return response.status(400).json({
+            error: validationResult.error.issues[0].message,
+        });
+    }
+
+    const email = validationResult.data.email.toLowerCase();
+    const { password } = validationResult.data;
+
+    try {
+        // Include the hash only for internal password comparison.
+        const userResult = await pool.query(
+            `SELECT id, email, password_hash, created_at
+             FROM users
+             WHERE email = $1`,
+            [email]
+        );
+
+        if (userResult.rowCount === 0) {
+            return response.status(401).json({
+                error: "Invalid email or password",
+            });
+        }
+
+        const userRecord = userResult.rows[0];
+
+        const passwordMatches = await bcrypt.compare(
+            password,
+            userRecord.password_hash
+        );
+
+        if (!passwordMatches) {
+            return response.status(401).json({
+                error: "Invalid email or password",
+            });
+        }
+
+        setAuthCookie(response, userRecord.id);
+
+        return response.status(200).json({
+            user: {
+                id: userRecord.id,
+                email: userRecord.email,
+                created_at: userRecord.created_at,
+            },
+        });
+    } catch (error) {
+        console.error("User login failed:", error.message);
+
+        return response.status(500).json({
+            error: "Could not log in",
+        });
+    }
+}
+
+export function logoutUser(request, response) {
+    // Expire the authentication cookie.
+    clearAuthCookie(response);
+
+    return response.status(200).json({
+        message: "Logged out",
+    });
+}
+
+export async function getCurrentUser(request, response) {
+    const token = request.cookies[TOKEN_COOKIE_NAME];
+
+    if (!token) {
+        return response.status(401).json({
+            error: "Authentication required",
+        });
+    }
+
+    let tokenPayload;
+
+    try {
+        // Verify the JWT signature and expiration.
+        tokenPayload = jwt.verify(
+            token,
+            process.env.JWT_SECRET
+        );
+
+        if (!tokenPayload.userId) {
+            throw new Error("Token does not contain a user ID");
+        }
+    } catch {
+        clearAuthCookie(response);
+
+        return response.status(401).json({
+            error: "Invalid or expired authentication",
+        });
+    }
+
+    try {
+        const userResult = await pool.query(
+            `SELECT id, email, created_at
+             FROM users
+             WHERE id = $1`,
+            [tokenPayload.userId]
+        );
+
+        if (userResult.rowCount === 0) {
+            clearAuthCookie(response);
+
+            return response.status(401).json({
+                error: "Invalid or expired authentication",
+            });
+        }
+
+        return response.status(200).json({
+            user: userResult.rows[0],
+        });
+    } catch (error) {
+        console.error(
+            "Current user lookup failed:",
+            error.message
+        );
+
+        return response.status(500).json({
+            error: "Could not get current user",
         });
     }
 }

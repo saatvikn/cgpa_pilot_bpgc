@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.routes.js";
 import courseRouter from "./routes/course.routes.js";
 
@@ -16,6 +17,9 @@ app.use(
 
 // JSON body middleware.
 app.use(express.json());
+
+// Cookie parsing middleware.
+app.use(cookieParser());
 
 app.get("/api/health", (request, response) => {
     response.status(200).json({
