@@ -3,7 +3,7 @@
 import { useState } from "react";
 import styles from "./page.module.css";
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+import { apiRequest } from "@/lib/api";
 
 export default function Home() {
     const [backendStatus, setBackendStatus] = useState("Not checked");
@@ -15,17 +15,7 @@ export default function Home() {
         setError("");
 
         try {
-            if (!apiUrl) {
-                throw new Error("NEXT_PUBLIC_API_URL is not configured");
-            }
-
-            const response = await fetch(`${apiUrl}/api/health`);
-
-            if (!response.ok) {
-                throw new Error(`Request failed with status ${response.status}`);
-            }
-
-            const data = await response.json();
+            const data = await apiRequest("/api/health");
             setBackendStatus(data.status);
         } catch (requestError) {
             setError(requestError.message);

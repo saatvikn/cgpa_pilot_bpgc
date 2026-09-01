@@ -14,10 +14,17 @@ The frontend never connects directly to PostgreSQL. It calls the Express API, an
 cgpa_pilot_bpgc/
 |-- client/                         Next.js frontend
 |   |-- app/                        Pages, layouts, and page styles
-|   |   |-- layout.js               Shared root layout
-|   |   |-- page.js                 Home page
+|   |   |-- login/
+|   |   |   `-- page.jsx            Login page
+|   |   |-- register/
+|   |   |   `-- page.jsx            Registration page
+|   |   |-- auth.module.css         Shared authentication-page styles
+|   |   |-- layout.jsx              Shared root layout
+|   |   |-- page.jsx                Home page
 |   |   |-- globals.css             Site-wide styles
-|   |   `-- page.module.css         Styles scoped to the home page
+|   |   `-- page.module.css         Home-page styles
+|   |-- lib/
+|   |   `-- api.js                  Shared frontend API helper
 |   |-- public/                     Static files such as images and icons
 |   |-- .env.local                  Local frontend configuration (ignored)
 |   |-- .env.example                Safe frontend environment template
