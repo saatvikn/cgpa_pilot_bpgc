@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { apiRequest } from "@/lib/api";
 
 import styles from "../auth.module.css";
@@ -12,9 +13,9 @@ const INITIAL_FORM = {
 };
 
 export default function LoginPage() {
+    const router = useRouter();
     const [formValues, setFormValues] = useState(INITIAL_FORM);
     const [error, setError] = useState("");
-    const [message, setMessage] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     function handleChange(event) {
@@ -29,7 +30,6 @@ export default function LoginPage() {
     async function handleSubmit(event) {
         event.preventDefault();
         setError("");
-        setMessage("");
         setIsSubmitting(true);
 
         try {
@@ -41,12 +41,7 @@ export default function LoginPage() {
                 }),
             });
 
-            setMessage("Logged in successfully.");
-
-            setFormValues((currentValues) => ({
-                ...currentValues,
-                password: "",
-            }));
+            router.replace("/dashboard");
         } catch (requestError) {
             setError(requestError.message);
         } finally {
@@ -132,15 +127,6 @@ export default function LoginPage() {
                         role="alert"
                     >
                         Error: {error}
-                    </p>
-                )}
-
-                {message && (
-                    <p
-                        className={styles.success}
-                        aria-live="polite"
-                    >
-                        {message}
                     </p>
                 )}
 

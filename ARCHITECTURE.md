@@ -14,6 +14,9 @@ The frontend never connects directly to PostgreSQL. It calls the Express API, an
 cgpa_pilot_bpgc/
 |-- client/                         Next.js frontend
 |   |-- app/                        Pages, layouts, and page styles
+|   |   |-- dashboard/
+|   |   |   |-- page.jsx            Protected dashboard page
+|   |   |   `-- dashboard.module.css
 |   |   |-- login/
 |   |   |   `-- page.jsx            Login page
 |   |   |-- register/

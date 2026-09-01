@@ -23,10 +23,14 @@ export async function apiRequest(path, options = {}) {
     const data = await response.json();
 
     if (!response.ok) {
-        throw new Error(
+        const requestError = new Error(
             data.error ||
             `Request failed with status ${response.status}`
         );
+
+        requestError.status = response.status;
+
+        throw requestError;
     }
 
     return data;

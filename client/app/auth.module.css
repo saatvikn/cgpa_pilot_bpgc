@@ -88,23 +88,14 @@
     opacity: 0.65;
 }
 
-.error,
-.success {
+.error {
     margin-top: 18px;
     padding: 10px 12px;
+    color: #991b1b;
+    background: #fee2e2;
     border-radius: 8px;
     font-size: 14px;
     line-height: 1.4;
-}
-
-.error {
-    color: #991b1b;
-    background: #fee2e2;
-}
-
-.success {
-    color: #166534;
-    background: #dcfce7;
 }
 
 .footer {
