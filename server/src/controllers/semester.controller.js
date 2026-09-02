@@ -1,0 +1,241 @@
+import pool from "../config/db.js";
+import {
+    createSemesterSchema,
+    semesterIdSchema,
+    updateSemesterSchema,
+} from "../validation/semester.schemas.js";
+
+export async function getSemesters(request, response) {
+    try {
+        // Return only the authenticated user's semesters.
+        const semesterResult = await pool.query(
+            `SELECT
+                id,
+                name,
+                semester_order AS "semesterOrder",
+                created_at AS "createdAt",
+                updated_at AS "updatedAt"
+             FROM semesters
+             WHERE user_id = $1
+             ORDER BY semester_order ASC`,
+            [request.userId]
+        );
+
+        return response.status(200).json({
+            semesters: semesterResult.rows,
+        });
+    } catch (error) {
+        console.error(
+            "Semester list failed:",
+            error.message
+        );
+
+        return response.status(500).json({
+            error: "Could not get semesters",
+        });
+    }
+}
+
+export async function createSemester(request, response) {
+    const validationResult = createSemesterSchema.safeParse(request.body);
+
+    if (!validationResult.success) {
+        return response.status(400).json({
+            error: validationResult.error.issues[0].message,
+        });
+    }
+
+    const { name, semesterOrder } = validationResult.data;
+
+    try {
+        // The authenticated user owns the new semester.
+        const semesterResult = await pool.query(
+            `INSERT INTO semesters (
+                user_id,
+                name,
+                semester_order
+             )
+             VALUES ($1, $2, $3)
+             RETURNING
+                id,
+                name,
+                semester_order AS "semesterOrder",
+                created_at AS "createdAt",
+                updated_at AS "updatedAt"`,
+            [request.userId, name, semesterOrder]
+        );
+
+        return response.status(201).json({
+            semester: semesterResult.rows[0],
+        });
+    } catch (error) {
+        if (error.code === "23505") {
+            return response.status(409).json({
+                error: "A semester with this order already exists",
+            });
+        }
+
+        console.error("Semester creation failed:", error.message);
+
+        return response.status(500).json({
+            error: "Could not create semester",
+        });
+    }
+}
+
+export async function getSemesterById(request, response) {
+    const idValidation = semesterIdSchema.safeParse(request.params.id);
+
+    if (!idValidation.success) {
+        return response.status(400).json({
+            error: idValidation.error.issues[0].message,
+        });
+    }
+
+    const semesterId = idValidation.data;
+
+    try {
+        // Match both the semester ID and its owner.
+        const semesterResult = await pool.query(
+            `SELECT
+                id,
+                name,
+                semester_order AS "semesterOrder",
+                created_at AS "createdAt",
+                updated_at AS "updatedAt"
+             FROM semesters
+             WHERE id = $1
+               AND user_id = $2`,
+            [semesterId, request.userId]
+        );
+
+        if (semesterResult.rowCount === 0) {
+            return response.status(404).json({
+                error: "Semester not found",
+            });
+        }
+
+        return response.status(200).json({
+            semester: semesterResult.rows[0],
+        });
+    } catch (error) {
+        console.error("Semester lookup failed:", error.message);
+
+        return response.status(500).json({
+            error: "Could not get semester",
+        });
+    }
+}
+
+export async function updateSemester(request, response) {
+    const idValidation = semesterIdSchema.safeParse(request.params.id);
+
+    if (!idValidation.success) {
+        return response.status(400).json({
+            error: idValidation.error.issues[0].message,
+        });
+    }
+
+    const bodyValidation = updateSemesterSchema.safeParse(request.body);
+
+    if (!bodyValidation.success) {
+        return response.status(400).json({
+            error: bodyValidation.error.issues[0].message,
+        });
+    }
+
+    const semesterId = idValidation.data;
+    const name = bodyValidation.data.name ?? null;
+    const semesterOrder = bodyValidation.data.semesterOrder ?? null;
+
+    try {
+        // Update only a semester owned by this user.
+        const semesterResult = await pool.query(
+            `UPDATE semesters
+             SET
+                name = COALESCE($1, name),
+                semester_order = COALESCE(
+                    $2,
+                    semester_order
+                ),
+                updated_at = NOW()
+             WHERE id = $3
+               AND user_id = $4
+             RETURNING
+                id,
+                name,
+                semester_order AS "semesterOrder",
+                created_at AS "createdAt",
+                updated_at AS "updatedAt"`,
+            [
+                name,
+                semesterOrder,
+                semesterId,
+                request.userId,
+            ]
+        );
+
+        if (semesterResult.rowCount === 0) {
+            return response.status(404).json({
+                error: "Semester not found",
+            });
+        }
+
+        return response.status(200).json({
+            semester: semesterResult.rows[0],
+        });
+    } catch (error) {
+        if (error.code === "23505") {
+            return response.status(409).json({
+                error: "A semester with this order already exists",
+            });
+        }
+
+        console.error("Semester update failed:", error.message);
+
+        return response.status(500).json({
+            error: "Could not update semester",
+        });
+    }
+}
+
+export async function deleteSemester(request, response) {
+    const idValidation = semesterIdSchema.safeParse(request.params.id);
+
+    if (!idValidation.success) {
+        return response.status(400).json({
+            error: idValidation.error.issues[0].message,
+        });
+    }
+
+    const semesterId = idValidation.data;
+
+    try {
+        // Delete only a semester owned by this user.
+        const deleteResult = await pool.query(
+            `DELETE FROM semesters
+             WHERE id = $1
+               AND user_id = $2`,
+            [semesterId, request.userId]
+        );
+
+        if (deleteResult.rowCount === 0) {
+            return response.status(404).json({
+                error: "Semester not found",
+            });
+        }
+
+        return response.status(200).json({
+            message: "Semester deleted",
+        });
+    } catch (error) {
+        console.error(
+            "Semester deletion failed:",
+            error.message
+        );
+
+        return response.status(500).json({
+            error: "Could not delete semester",
+        });
+    }
+}

@@ -43,14 +43,17 @@ cgpa_pilot_bpgc/
 |   |   |   `-- db.js               PostgreSQL connection pool and SSL setup
 |   |   |-- routes/                 Maps HTTP methods and paths to controllers
 |   |   |   |-- auth.routes.js
-|   |   |   `-- course.routes.js
+|   |   |   |-- course.routes.js
+|   |   |   `-- semester.routes.js
 |   |   |-- controllers/            Processes requests and creates responses
 |   |   |   |-- auth.controller.js
-|   |   |   `-- course.controller.js
+|   |   |   |-- course.controller.js
+|   |   |   `-- semester.controller.js
 |   |   |-- middleware/             Functions that run before controllers
 |   |   |   `-- auth.middleware.js  Verifies JWTs and attaches the user ID
 |   |   `-- validation/             Zod request-validation rules
-|   |       `-- auth.schemas.js
+|   |       |-- auth.schemas.js
+|   |       `-- semester.schemas.js
 |   |-- sql/                        Version-controlled database structure
 |   |   `-- 001_initial_schema.sql
 |   |-- data/                       Reference data used by seed scripts

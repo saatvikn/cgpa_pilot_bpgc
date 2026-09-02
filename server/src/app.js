@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.routes.js";
 import courseRouter from "./routes/course.routes.js";
+import semesterRouter from "./routes/semester.routes.js";
 
 const app = express();
 
@@ -33,5 +34,8 @@ app.use("/api/auth", authRouter);
 
 // Course catalogue API.
 app.use("/api/courses", courseRouter);
+
+// User semester API.
+app.use("/api/semesters", semesterRouter);
 
 export default app;
