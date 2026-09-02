@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiRequest } from "@/lib/api";
@@ -478,6 +479,13 @@ export default function DashboardPage() {
                                                 Course and SGPA information will
                                                 appear here later.
                                             </p>
+
+                                            <Link
+                                                className={styles.openLink}
+                                                href={`/dashboard/semesters/${semester.id}`}
+                                            >
+                                                Open semester →
+                                            </Link>
                                         </>
                                     )}
 

@@ -1,0 +1,133 @@
+.page {
+    min-height: 100vh;
+    padding: 14px;
+    color: var(--color-text);
+    background:
+        radial-gradient(
+            circle at top left,
+            rgba(30, 68, 49, 0.16),
+            transparent 28rem
+        ),
+        var(--color-background);
+}
+
+.container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.backLink {
+    display: inline-block;
+    margin-bottom: 10px;
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.backLink:hover {
+    color: var(--color-accent-secondary);
+}
+
+.header {
+    padding: 16px;
+    margin-bottom: 10px;
+    background: var(--color-panel-blue);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--panel-shadow);
+}
+
+.eyebrow {
+    margin-bottom: 7px;
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+}
+
+.title {
+    font-size: 2rem;
+    line-height: 1;
+    letter-spacing: -0.04em;
+}
+
+.panel {
+    background: var(--color-panel-green);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--panel-shadow);
+}
+
+.panelHeader {
+    padding: 12px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.panelHeader h2 {
+    margin-bottom: 5px;
+    font-size: 1rem;
+}
+
+.panelHeader h2::before {
+    content: "v ";
+    color: var(--color-accent-secondary);
+    font-family: var(--font-mono);
+}
+
+.panelHeader p,
+.emptyState p {
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1.5;
+}
+
+.emptyState {
+    margin: 10px;
+    padding: 28px 16px;
+    text-align: center;
+    background: var(--color-panel-raised);
+    border: 1px dashed var(--color-border);
+}
+
+.emptyState h3 {
+    margin-bottom: 6px;
+}
+
+.statusCard,
+.errorCard {
+    max-width: 600px;
+    margin: 60px auto;
+    padding: 14px;
+    border: 1px solid var(--color-border);
+    box-shadow: var(--panel-shadow);
+}
+
+.statusCard {
+    color: var(--color-muted);
+    background: var(--color-panel-blue);
+    font-family: var(--font-mono);
+}
+
+.errorCard {
+    background: var(--color-error-background);
+}
+
+.errorCard h1 {
+    margin-bottom: 8px;
+}
+
+.errorCard p {
+    color: var(--color-error);
+    font-family: var(--font-mono);
+}
+
+@media (max-width: 600px) {
+    .page {
+        padding: 10px;
+    }
+
+    .title {
+        font-size: 1.75rem;
+    }
+}
