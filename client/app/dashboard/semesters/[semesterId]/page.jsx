@@ -15,20 +15,39 @@ export default function SemesterDetailsPage() {
     const { semesterId } = useParams();
 
     const [semester, setSemester] = useState(null);
+    const [semesterCourses, setSemesterCourses] = useState([]);
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(true);
+
+    const [courseSearch, setCourseSearch] = useState("");
+    const [courseResults, setCourseResults] = useState([]);
+    const [searchError, setSearchError] = useState("");
+    const [addCourseError, setAddCourseError] = useState("");
+    const [isSearching, setIsSearching] = useState(false);
+    const [hasSearched, setHasSearched] = useState(false);
+    const [addingCourseId, setAddingCourseId] = useState(null);
+
+    const [pendingRemoveCourseId, setPendingRemoveCourseId] =
+        useState(null);
+    const [removeCourseError, setRemoveCourseError] =
+        useState("");
+    const [isRemovingCourse, setIsRemovingCourse] =
+        useState(false);
 
     useEffect(() => {
         let isActive = true;
 
         async function loadSemester() {
             try {
-                const data = await apiRequest(
-                    `/api/semesters/${semesterId}`
-                );
+                const [semesterData, courseData] =
+                    await Promise.all([
+                        apiRequest(`/api/semesters/${semesterId}`),
+                        apiRequest(`/api/semesters/${semesterId}/courses`),
+                    ]);
 
                 if (isActive) {
-                    setSemester(data.semester);
+                    setSemester(semesterData.semester);
+                    setSemesterCourses(courseData.semesterCourses);
                 }
             } catch (requestError) {
                 if (!isActive) {
@@ -54,6 +73,110 @@ export default function SemesterDetailsPage() {
             isActive = false;
         };
     }, [router, semesterId]);
+
+    async function handleSearchCourses(event) {
+        event.preventDefault();
+
+        const trimmedSearch = courseSearch.trim();
+
+        if (!trimmedSearch) {
+            setSearchError("Enter a course code or name");
+            return;
+        }
+
+        setSearchError("");
+        setAddCourseError("");
+        setHasSearched(false);
+        setIsSearching(true);
+
+        try {
+            const searchParams = new URLSearchParams({
+                search: trimmedSearch,
+            });
+
+            const data = await apiRequest(
+                `/api/courses?${searchParams.toString()}`
+            );
+
+            setCourseResults(data.courses);
+            setHasSearched(true);
+        } catch (requestError) {
+            setSearchError(requestError.message);
+        } finally {
+            setIsSearching(false);
+        }
+    }
+
+    async function handleAddCourse(courseId) {
+        setAddCourseError("");
+        setAddingCourseId(courseId);
+
+        try {
+            const data = await apiRequest(
+                `/api/semesters/${semesterId}/courses`,
+                {
+                    method: "POST",
+                    body: JSON.stringify({
+                        courseId,
+                    }),
+                }
+            );
+
+            // Display the returned course without reloading.
+            setSemesterCourses((currentCourses) =>
+                [
+                    ...currentCourses,
+                    data.semesterCourse,
+                ].sort((firstCourse, secondCourse) =>
+                    firstCourse.courseCode.localeCompare(
+                        secondCourse.courseCode
+                    )
+                )
+            );
+        } catch (requestError) {
+            setAddCourseError(requestError.message);
+        } finally {
+            setAddingCourseId(null);
+        }
+    }
+
+    function startRemovingCourse(semesterCourseId) {
+        setPendingRemoveCourseId(semesterCourseId);
+        setRemoveCourseError("");
+    }
+
+    function cancelRemovingCourse() {
+        setPendingRemoveCourseId(null);
+        setRemoveCourseError("");
+    }
+
+    async function handleRemoveCourse(semesterCourseId) {
+        setRemoveCourseError("");
+        setIsRemovingCourse(true);
+
+        try {
+            await apiRequest(
+                `/api/semester-courses/${semesterCourseId}`,
+                {
+                    method: "DELETE",
+                }
+            );
+
+            // Remove only the selected course returned by this card.
+            setSemesterCourses((currentCourses) =>
+                currentCourses.filter(
+                    (semesterCourse) =>
+                        semesterCourse.id !== semesterCourseId
+                )
+            );
+
+            setPendingRemoveCourseId(null);
+        } catch (requestError) {
+            setRemoveCourseError(requestError.message);
+        } finally {
+            setIsRemovingCourse(false);
+        }
+    }
 
     if (isLoading) {
         return (
@@ -109,6 +232,116 @@ export default function SemesterDetailsPage() {
                     </h1>
                 </header>
 
+                <section className={styles.searchPanel}>
+                    <div className={styles.panelHeader}>
+                        <h2>Add a course</h2>
+                        <p>
+                            Search the BITS Goa course catalogue by
+                            code or name.
+                        </p>
+                    </div>
+
+                    <form
+                        className={styles.searchForm}
+                        onSubmit={handleSearchCourses}
+                    >
+                        <input
+                            className={styles.searchInput}
+                            type="search"
+                            value={courseSearch}
+                            onChange={(event) =>
+                                setCourseSearch(event.target.value)
+                            }
+                            placeholder="Example: CS F111"
+                            aria-label="Course code or name"
+                            required
+                        />
+
+                        <button
+                            className={styles.searchButton}
+                            type="submit"
+                            disabled={isSearching}
+                        >
+                            {isSearching ? "Searching..." : "Search"}
+                        </button>
+                    </form>
+
+                    {searchError && (
+                        <p
+                            className={styles.searchError}
+                            role="alert"
+                        >
+                            Error: {searchError}
+                        </p>
+                    )}
+
+                    {addCourseError && (
+                        <p
+                            className={styles.searchError}
+                            role="alert"
+                        >
+                            Error: {addCourseError}
+                        </p>
+                    )}
+
+                    {hasSearched && courseResults.length === 0 && (
+                        <p className={styles.searchEmpty}>
+                            No matching courses found.
+                        </p>
+                    )}
+
+                    {courseResults.length > 0 && (
+                        <div className={styles.searchResults}>
+                            {courseResults.map((course) => {
+                                const isAdded = semesterCourses.some(
+                                    (semesterCourse) =>
+                                        semesterCourse.courseId ===
+                                        course.id
+                                );
+
+                                return (
+                                    <article
+                                        className={styles.searchResult}
+                                        key={course.id}
+                                    >
+                                        <div>
+                                            <p className={styles.resultCode}>
+                                                {course.courseCode}
+                                            </p>
+
+                                            <h3>{course.courseName}</h3>
+
+                                            <p className={styles.resultMeta}>
+                                                {course.credits} credits ·{" "}
+                                                {course.department}
+                                            </p>
+                                        </div>
+
+                                        <button
+                                            className={styles.addCourseButton}
+                                            type="button"
+                                            onClick={() =>
+                                                handleAddCourse(course.id)
+                                            }
+                                            disabled={
+                                                isAdded ||
+                                                addingCourseId !== null ||
+                                                pendingRemoveCourseId !== null
+                                            }
+                                        >
+                                            {isAdded
+                                                ? "Added"
+                                                : addingCourseId === course.id
+                                                  ? "Adding..."
+                                                  : "+ Add"}
+                                        </button>
+                                    </article>
+                                );
+                            })}
+                        </div>
+                    )}
+                </section>
+
                 <section className={styles.panel}>
                     <div className={styles.panelHeader}>
                         <h2>Courses</h2>
@@ -118,13 +351,141 @@ export default function SemesterDetailsPage() {
                         </p>
                     </div>
 
-                    <div className={styles.emptyState}>
-                        <h3>No courses yet</h3>
-                        <p>
-                            Course management comes in the next
-                            project phase.
-                        </p>
-                    </div>
+                    {semesterCourses.length === 0 ? (
+                        <div className={styles.emptyState}>
+                            <h3>No courses yet</h3>
+                            <p>
+                                Search the catalogue to add the first
+                                course.
+                            </p>
+                        </div>
+                    ) : (
+                        <div className={styles.courseList}>
+                            {semesterCourses.map((semesterCourse) => (
+                                <article
+                                    className={styles.courseCard}
+                                    key={semesterCourse.id}
+                                >
+                                    <div className={styles.courseHeading}>
+                                        <div>
+                                            <p className={styles.courseCode}>
+                                                {semesterCourse.courseCode}
+                                            </p>
+
+                                            <h3>
+                                                {semesterCourse.courseName}
+                                            </h3>
+                                        </div>
+
+                                        <div className={styles.courseCardActions}>
+                                            <p className={styles.courseCredits}>
+                                                {semesterCourse.credits} credits
+                                            </p>
+
+                                            <button
+                                                className={styles.removeCourseButton}
+                                                type="button"
+                                                onClick={() =>
+                                                    startRemovingCourse(
+                                                        semesterCourse.id
+                                                    )
+                                                }
+                                                disabled={
+                                                    pendingRemoveCourseId !== null
+                                                }
+                                                aria-label={`Remove ${semesterCourse.courseName}`}
+                                            >
+                                                Remove
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <p className={styles.courseMeta}>
+                                        {semesterCourse.department}
+                                    </p>
+
+                                    <p className={styles.courseGrade}>
+                                        Grade:{" "}
+                                        {semesterCourse.grade ??
+                                            "Not selected"}
+                                    </p>
+
+                                    {pendingRemoveCourseId ===
+                                        semesterCourse.id && (
+                                        <div
+                                            className={
+                                                styles.removeConfirmation
+                                            }
+                                        >
+                                            <p
+                                                className={
+                                                    styles.removeQuestion
+                                                }
+                                            >
+                                                Remove &quot;
+                                                {semesterCourse.courseCode}
+                                                &quot; from this semester?
+                                            </p>
+
+                                            <p
+                                                className={
+                                                    styles.removeWarning
+                                                }
+                                            >
+                                                Its selected grade will also be
+                                                removed.
+                                            </p>
+
+                                            <div
+                                                className={
+                                                    styles.removeActions
+                                                }
+                                            >
+                                                <button
+                                                    className={
+                                                        styles.confirmRemoveButton
+                                                    }
+                                                    type="button"
+                                                    onClick={() =>
+                                                        handleRemoveCourse(
+                                                            semesterCourse.id
+                                                        )
+                                                    }
+                                                    disabled={isRemovingCourse}
+                                                >
+                                                    {isRemovingCourse
+                                                        ? "Removing..."
+                                                        : "Confirm remove"}
+                                                </button>
+
+                                                <button
+                                                    className={
+                                                        styles.cancelRemoveButton
+                                                    }
+                                                    type="button"
+                                                    onClick={cancelRemovingCourse}
+                                                    disabled={isRemovingCourse}
+                                                >
+                                                    Cancel
+                                                </button>
+                                            </div>
+
+                                            {removeCourseError && (
+                                                <p
+                                                    className={
+                                                        styles.removeError
+                                                    }
+                                                    role="alert"
+                                                >
+                                                    Error: {removeCourseError}
+                                                </p>
+                                            )}
+                                        </div>
+                                    )}
+                                </article>
+                            ))}
+                        </div>
+                    )}
                 </section>
             </div>
         </main>

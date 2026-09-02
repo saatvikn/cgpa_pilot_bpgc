@@ -1,4 +1,8 @@
 import pool from "../config/db.js";
+import {
+    addSemesterCourseSchema,
+    semesterCourseIdSchema,
+} from "../validation/semester-course.schemas.js";
 import { semesterIdSchema } from "../validation/semester.schemas.js";
 
 export async function getSemesterCourses(
@@ -62,6 +66,153 @@ export async function getSemesterCourses(
 
         return response.status(500).json({
             error: "Could not get semester courses",
+        });
+    }
+}
+
+export async function addCourseToSemester(
+    request,
+    response
+) {
+    const idValidation = semesterIdSchema.safeParse(
+        request.params.id
+    );
+
+    if (!idValidation.success) {
+        return response.status(400).json({
+            error: idValidation.error.issues[0].message,
+        });
+    }
+
+    const bodyValidation =
+        addSemesterCourseSchema.safeParse(
+            request.body
+        );
+
+    if (!bodyValidation.success) {
+        return response.status(400).json({
+            error:
+                bodyValidation.error.issues[0].message,
+        });
+    }
+
+    const semesterId = idValidation.data;
+    const { courseId } = bodyValidation.data;
+
+    try {
+        // Only the semester owner may add courses.
+        const semesterResult = await pool.query(
+            `SELECT id
+             FROM semesters
+             WHERE id = $1
+               AND user_id = $2`,
+            [semesterId, request.userId]
+        );
+
+        if (semesterResult.rowCount === 0) {
+            return response.status(404).json({
+                error: "Semester not found",
+            });
+        }
+
+        const courseResult = await pool.query(
+            `SELECT
+                id AS "courseId",
+                course_code AS "courseCode",
+                course_name AS "courseName",
+                credits,
+                department
+             FROM courses
+             WHERE id = $1`,
+            [courseId]
+        );
+
+        if (courseResult.rowCount === 0) {
+            return response.status(404).json({
+                error: "Course not found",
+            });
+        }
+
+        const insertResult = await pool.query(
+            `INSERT INTO semester_courses (
+                semester_id,
+                course_id
+             )
+             VALUES ($1, $2)
+             RETURNING
+                id,
+                grade`,
+            [semesterId, courseId]
+        );
+
+        return response.status(201).json({
+            semesterCourse: {
+                id: insertResult.rows[0].id,
+                ...courseResult.rows[0],
+                grade: insertResult.rows[0].grade,
+            },
+        });
+    } catch (error) {
+        if (error.code === "23505") {
+            return response.status(409).json({
+                error:
+                    "Course is already in this semester",
+            });
+        }
+
+        console.error(
+            "Add semester course failed:",
+            error.message
+        );
+
+        return response.status(500).json({
+            error: "Could not add course to semester",
+        });
+    }
+}
+
+export async function deleteSemesterCourse(request, response) {
+    const idValidation = semesterCourseIdSchema.safeParse(
+        request.params.semesterCourseId
+    );
+
+    if (!idValidation.success) {
+        return response.status(400).json({
+            error: idValidation.error.issues[0].message,
+        });
+    }
+
+    const semesterCourseId = idValidation.data;
+
+    try {
+        // Delete only through a semester owned by this user.
+        const deleteResult = await pool.query(
+            `DELETE FROM semester_courses AS sc
+             USING semesters AS s
+             WHERE sc.id = $1
+               AND sc.semester_id = s.id
+               AND s.user_id = $2
+             RETURNING sc.id`,
+            [semesterCourseId, request.userId]
+        );
+
+        if (deleteResult.rowCount === 0) {
+            return response.status(404).json({
+                error: "Semester course not found",
+            });
+        }
+
+        return response.status(200).json({
+            message: "Course removed from semester",
+        });
+    } catch (error) {
+        console.error(
+            "Remove semester course failed:",
+            error.message
+        );
+
+        return response.status(500).json({
+            error: "Could not remove course from semester",
         });
     }
 }

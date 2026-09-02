@@ -10,8 +10,8 @@ export async function getCourses(request, response) {
             `
         SELECT
           id,
-          course_code,
-          course_name,
+          course_code AS "courseCode",
+          course_name AS "courseName",
           credits,
           department
         FROM courses

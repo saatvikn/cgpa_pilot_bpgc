@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.routes.js";
 import courseRouter from "./routes/course.routes.js";
+import semesterCourseRouter from "./routes/semester-course.routes.js";
 import semesterRouter from "./routes/semester.routes.js";
 
 const app = express();
@@ -37,5 +38,11 @@ app.use("/api/courses", courseRouter);
 
 // User semester API.
 app.use("/api/semesters", semesterRouter);
+
+// Courses selected inside user semesters.
+app.use(
+    "/api/semester-courses",
+    semesterCourseRouter
+);
 
 export default app;
