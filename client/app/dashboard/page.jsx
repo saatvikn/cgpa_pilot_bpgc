@@ -30,6 +30,16 @@ export default function DashboardPage() {
     const [editSemesterError, setEditSemesterError] = useState("");
     const [isUpdatingSemester, setIsUpdatingSemester] = useState(false);
 
+    const [pendingDeleteSemesterId, setPendingDeleteSemesterId] = useState(null);
+    const [deleteSemesterError, setDeleteSemesterError] = useState("");
+    const [isDeletingSemester, setIsDeletingSemester] = useState(false);
+
+    const isSemesterActionActive =
+        editingSemesterId !== null ||
+        pendingDeleteSemesterId !== null ||
+        isUpdatingSemester ||
+        isDeletingSemester;
+
     useEffect(() => {
         let isActive = true;
 
@@ -154,6 +164,44 @@ export default function DashboardPage() {
             setEditSemesterError(requestError.message);
         } finally {
             setIsUpdatingSemester(false);
+        }
+    }
+
+    function startDeletingSemester(semesterId) {
+        setPendingDeleteSemesterId(semesterId);
+        setDeleteSemesterError("");
+    }
+
+    function cancelDeletingSemester() {
+        setPendingDeleteSemesterId(null);
+        setDeleteSemesterError("");
+    }
+
+    async function handleDeleteSemester(semesterId) {
+        setDeleteSemesterError("");
+        setIsDeletingSemester(true);
+
+        try {
+            await apiRequest(
+                `/api/semesters/${semesterId}`,
+                {
+                    method: "DELETE",
+                }
+            );
+
+            // Keep every semester except the deleted one.
+            setSemesters((currentSemesters) =>
+                currentSemesters.filter(
+                    (semester) =>
+                        semester.id !== semesterId
+                )
+            );
+
+            setPendingDeleteSemesterId(null);
+        } catch (requestError) {
+            setDeleteSemesterError(requestError.message);
+        } finally {
+            setIsDeletingSemester(false);
         }
     }
 
@@ -399,16 +447,31 @@ export default function DashboardPage() {
                                             <div className={styles.cardTitleRow}>
                                                 <h3>{semester.name}</h3>
 
-                                                <button
-                                                    className={styles.editButton}
-                                                    type="button"
-                                                    onClick={() =>
-                                                        startEditingSemester(semester)
-                                                    }
-                                                    aria-label={`Rename ${semester.name}`}
-                                                >
-                                                    Edit
-                                                </button>
+                                                <div className={styles.cardActions}>
+                                                    <button
+                                                        className={styles.editButton}
+                                                        type="button"
+                                                        onClick={() =>
+                                                            startEditingSemester(semester)
+                                                        }
+                                                        disabled={isSemesterActionActive}
+                                                        aria-label={`Rename ${semester.name}`}
+                                                    >
+                                                        Edit
+                                                    </button>
+
+                                                    <button
+                                                        className={styles.deleteButton}
+                                                        type="button"
+                                                        onClick={() =>
+                                                            startDeletingSemester(semester.id)
+                                                        }
+                                                        disabled={isSemesterActionActive}
+                                                        aria-label={`Delete ${semester.name}`}
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </div>
                                             </div>
 
                                             <p className={styles.semesterMeta}>
@@ -416,6 +479,53 @@ export default function DashboardPage() {
                                                 appear here later.
                                             </p>
                                         </>
+                                    )}
+
+                                    {pendingDeleteSemesterId === semester.id && (
+                                        <div className={styles.deleteConfirmation}>
+                                            <p className={styles.deleteQuestion}>
+                                                Delete &quot;{semester.name}&quot;?
+                                            </p>
+
+                                            <p className={styles.deleteWarning}>
+                                                This action cannot be undone.
+                                            </p>
+
+                                            <div className={styles.deleteActions}>
+                                                <button
+                                                    className={styles.confirmDeleteButton}
+                                                    type="button"
+                                                    onClick={() =>
+                                                        handleDeleteSemester(
+                                                            semester.id
+                                                        )
+                                                    }
+                                                    disabled={isDeletingSemester}
+                                                >
+                                                    {isDeletingSemester
+                                                        ? "Deleting..."
+                                                        : "Confirm delete"}
+                                                </button>
+
+                                                <button
+                                                    className={styles.cancelButton}
+                                                    type="button"
+                                                    onClick={cancelDeletingSemester}
+                                                    disabled={isDeletingSemester}
+                                                >
+                                                    Cancel
+                                                </button>
+                                            </div>
+
+                                            {deleteSemesterError && (
+                                                <p
+                                                    className={styles.deleteError}
+                                                    role="alert"
+                                                >
+                                                    Error: {deleteSemesterError}
+                                                </p>
+                                            )}
+                                        </div>
                                     )}
                                 </article>
                             ))}

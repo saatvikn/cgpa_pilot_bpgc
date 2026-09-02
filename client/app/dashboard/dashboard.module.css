@@ -337,6 +337,71 @@
     font-size: 0.72rem;
 }
 
+.cardActions,
+.deleteActions {
+    display: flex;
+    gap: 7px;
+}
+
+.deleteButton,
+.confirmDeleteButton {
+    padding: 6px 9px;
+    color: var(--color-error);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    cursor: pointer;
+}
+
+.deleteButton:hover:not(:disabled),
+.confirmDeleteButton:hover:not(:disabled) {
+    color: var(--color-background);
+    background: var(--color-error);
+    border-color: var(--color-error);
+}
+
+.editButton:disabled,
+.deleteButton:disabled,
+.confirmDeleteButton:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.deleteConfirmation {
+    display: grid;
+    gap: 8px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--color-border);
+}
+
+.deleteQuestion {
+    color: var(--color-error);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.deleteWarning {
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+}
+
+.confirmDeleteButton {
+    border-color: var(--color-error);
+}
+
+.deleteError {
+    padding: 8px 10px;
+    color: var(--color-error);
+    background: var(--color-error-background);
+    border: 1px solid var(--color-error);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+}
+
 @media (max-width: 600px) {
     .semesterForm {
         grid-template-columns: 1fr;
