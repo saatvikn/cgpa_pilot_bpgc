@@ -1,4 +1,202 @@
 course_code,course_name,credits,department
+BIO F101,Introduction to Biological Sciences,3,Biological Sciences
+BIO F211,Biological Chemistry,3,Biological Sciences
+BIO F212,Microbiology,4,Biological Sciences
+BIO F213,Cell Biology,3,Biological Sciences
+BIO F214,Integrated Biology,3,Biological Sciences
+BIO F215,Biophysics,3,Biological Sciences
+BIO F216,"Water, Sanitation and Solid Waste Management",3,Biological Sciences
+BIO F217,"Laboratory for Water, Sanitation and Solid waste Management",3,Biological Sciences
+BIO F241,Ecology and Environmental Science,3,Biological Sciences
+BIO F242,Introduction to Bioinformatics,3,Biological Sciences
+BIO F243,Genetics,3,Biological Sciences
+BIO F244,Instrumental Methods of Analysis,4,Biological Sciences
+BIO F266,Study Project,3,Biological Sciences
+BIO F311,Recombinant DNA Technology,3,Biological Sciences
+BIO F312,Plant Physiology,3,Biological Sciences
+BIO F313,Animal Physiology,3,Biological Sciences
+BIO F341,Developmental Biology,3,Biological Sciences
+BIO F342,Immunology,3,Biological Sciences
+BIO F366,Laboratory Project,3,Biological Sciences
+BIO F367,Laboratory Project,3,Biological Sciences
+BIO F376,Design Project,3,Biological Sciences
+BIO F377,Design Project,3,Biological Sciences
+BIO F413,Molecular Biology of Cell,3,Biological Sciences
+BIO F417,Biomolecular Modelling,3,Biological Sciences
+BIO F418,Genetic Engineering Techniques,4,Biological Sciences
+BIO F419,Molecular Evolution,3,Biological Sciences
+BIO F421,Enzymology,3,Biological Sciences
+BIO F422,Fundamental of Tissue Fundamental of Tissue Engg,3,Biological Sciences
+BIO F441,Biochemical Engineering,3,Biological Sciences
+BIO F451,Bioprocess Technology,3,Biological Sciences
+BIO F491,Special Project,3,Biological Sciences
+BIO G512,Molecular Mechanism of Gene Expression,5,Biological Sciences
+BIO G514,Molecular Immunology,5,Biological Sciences
+BIO G515,Stem Cell and Regenerative Biology,4,Biological Sciences
+BIO G523,Advanced and Applied Microbiology,5,Biological Sciences
+BIO G524,Animal Cell Technology,5,Biological Sciences
+BIO G525,Environmental Biotechnology & Waste Mgnt,5,Biological Sciences
+BIO G526,Cancer Biology,5,Biological Sciences
+BIO G532,Biostatistics and Biomodelling,4,Biological Sciences
+BIO G542,Advanced Cell Mole Bio,5,Biological Sciences
+BIO G642,Experimental Techniques,4,Biological Sciences
+BIO G643,Plant Biotechnology,5,Biological Sciences
+BIO G651,Protein and Enzyme Bioengineering,5,Biological Sciences
+BIO G671,Bioconversion Technology,5,Biological Sciences
+BIO U101,Introduction to Biological Sciences,9,Biological Sciences
+BIOT F345,Proteomics,3,Biological Sciences
+BIOT F347,Immunotechnology,3,Biological Sciences
+BIOT F422,Nanobiotechnology,3,Biological Sciences
+BIOT F424,Food Biotechnology,3,Biological Sciences
+BITS C790T,Independent Study,2,General
+BITS C791T,Teaching Practice I,1,General
+BITS C797T,Ph D Seminar,2,General
+BITS C799T,PhD Thesis,10,General
+BITS E573,Study in Advanced Topics I,5,General
+BITS E574,Study in Advanced Topics II,5,General
+BITS E583,Case Studies I,5,General
+BITS E593,Reading Course I,5,General
+BITS E661,Research Methodology I,5,General
+BITS E793T,Practice Lect Series I,1,General
+BITS E794T,Practice Lect Series II,1,General
+BITS F102,Innovation and Design Thinking,1,General
+BITS F103,Engineering Design & Prototyping,4,General
+BITS F111,Thermodynamics,3,General
+BITS F113,General Mathematics I,3,General
+BITS F114,General Mathematics II,3,General
+BITS F218,General Mathematics III,3,General
+BITS F221,Practice School I,5,General
+BITS F225,Introduction to Environmental Studies,3,General
+BITS F232,Foundations of Data Structures and Algorithms,4,General
+BITS F234,Intro to Engg Design,4,General
+BITS F235,Digital Fundamentals Oes,4,General
+BITS F240,Intro to Env & Sust System Eng,3,General
+BITS F241,Systems Engineering Principles,3,General
+BITS F312,Neural Networks and Fuzzy Logic,3,General
+BITS F314,Game Theory and Its Applications,3,General
+BITS F315,Introduction to Cognitive Neuroscience,3,General
+BITS F316,Nonlinear Dynamics and Chaos,3,General
+BITS F317,Theoretical Neuroscience,3,General
+BITS F327,Artificial Intelligence for Robotics,3,General
+BITS F364,Human – Computer Interaction,3,General
+BITS F382,Reading Course,3,General
+BITS F385,Introduction to Gender Studies,3,General
+BITS F386,Quantum Information and Computation,3,General
+BITS F412,Practice School II,20,General
+BITS F413,Practice School II,20,General
+BITS F415,Introduction to MEMS,4,General
+BITS F416,Introduction to Nanoscience,3,General
+BITS F417,Micro Fluidics and its Application,4,General
+BITS F419,Management of Cross Cultural Engineering Teams,3,General
+BITS F421T,Thesis,16,General
+BITS F422T,Thesis,16,General
+BITS F423T,Thesis,9,General
+BITS F424T,Thesis,9,General
+BITS F437,Technical Communication,3,General
+BITS F441,Robotics,3,General
+BITS F445,Neural Networks and Applications,3,General
+BITS F452,Blockchain Technology,3,General
+BITS F453,Computational Learning Theory,3,General
+BITS F462,Renewable Energy,3,General
+BITS F463,Cryptography,3,General
+BITS F464,Machine Learning,3,General
+BITS F471,Introduction to Large Language Models,3,General
+BITS G511,Advanced Project,5,General
+BITS G513,Study in Advanced Topics,5,General
+BITS G529,Research Project I,6,General
+BITS G539,Research Project II,6,General
+BITS G540,Research Practice,4,General
+BITS G553,Real Time Systems,5,General
+BITS G554,Data Compression,4,General
+BITS G561T,Dissertation,16,General
+BITS G562T,Dissertation,16,General
+BITS G563T,Dissertation,16,General
+BITS G565,Dissertation,5,General
+BITS G619,Professional Practice,4,General
+BITS G620,Professional Practice I,3,General
+BITS G621,Professional Practice II,3,General
+BITS G629T,Dissertation,16,General
+BITS G649,Reading Course,5,General
+BITS G654,Advanced Instrumentation Tech,5,General
+BITS G661,Research Methodology I,5,General
+BITS U104,Foundations of Measurement and Experimentation,6,General
+CHE F211,Chemical Process Calculations,3,Chemical Engineering
+CHE F212,Fluid Mechanics,3,Chemical Engineering
+CHE F213,Chemical Engineering Thermodynamics,3,Chemical Engineering
+CHE F214,Engineering Chemistry,3,Chemical Engineering
+CHE F241,Heat Transfer,3,Chemical Engineering
+CHE F242,Numerical Methods for Chemical Engineers,3,Chemical Engineering
+CHE F243,Material Science and Engineering,3,Chemical Engineering
+CHE F244,Separation Processes I,3,Chemical Engineering
+CHE F266,Study Project,3,Chemical Engineering
+CHE F311,Kinetics and Reactor Design,3,Chemical Engineering
+CHE F312,Chemical Engineering Lab I,3,Chemical Engineering
+CHE F313,Separation Processes II,3,Chemical Engineering
+CHE F314,Process Design Principles I,3,Chemical Engineering
+CHE F315,Machine Learning for Chemical Engineers,3,Chemical Engineering
+CHE F341,Chemical Engineering Lab II,3,Chemical Engineering
+CHE F342,Process Dynamics and Control,3,Chemical Engineering
+CHE F343,Process Design Principles II,3,Chemical Engineering
+CHE F366,Laboratory Project,3,Chemical Engineering
+CHE F367,Laboratory Project,3,Chemical Engineering
+CHE F376,Design Project,3,Chemical Engineering
+CHE F377,Design Project,3,Chemical Engineering
+CHE F411,Environmental Pollution Control,3,Chemical Engineering
+CHE F412,Process Equipment Design,3,Chemical Engineering
+CHE F413,Process Plant Safety,3,Chemical Engineering
+CHE F414,Transport Phenomena,3,Chemical Engineering
+CHE F415,Molecular and Statistical Thermodynamics,3,Chemical Engineering
+CHE F419,Chemical Process Technology,3,Chemical Engineering
+CHE F421,Bio-chemical Engineering,3,Chemical Engineering
+CHE F422,Petroleum Refining Technology,3,Chemical Engineering
+CHE F424,Rheology of Complex Fluids,3,Chemical Engineering
+CHE F433,Corrosion Engineering,3,Chemical Engineering
+CHE F491,Laboratory Project Design Project Special Project,3,Chemical Engineering
+CHE G513,Environmental Management Systems,5,Chemical Engineering
+CHE G522,Polymer Technology,4,Chemical Engineering
+CHE G523,Mathematical Methods in Chemical Engineering,5,Chemical Engineering
+CHE G532,Alternate Energy Resources,4,Chemical Engineering
+CHE G552,Advanced Transport Phenomena,5,Chemical Engineering
+CHE G558,Chemical Process Optimization,4,Chemical Engineering
+CHE G622,Advanced Chemical Engineering Thermodynamics,5,Chemical Engineering
+CHE G641,Reaction Engineering,5,Chemical Engineering
+CHEM F101,Fundamentals of Chemistry,3,Chemistry
+CHEM F110,Chemistry Laboratory,1,Chemistry
+CHEM F111,General Chemistry,3,Chemistry
+CHEM F211,Physical Chemistry I,3,Chemistry
+CHEM F212,Organic Chemistry I,3,Chemistry
+CHEM F213,Physical Chemistry II,3,Chemistry
+CHEM F214,Inorganic Chemistry I,3,Chemistry
+CHEM F215,Food Chemistry,3,Chemistry
+CHEM F223,Colloid and Surface Chemistry,3,Chemistry
+CHEM F241,Inorganic Chemistry II,3,Chemistry
+CHEM F242,Chemical Experimentation I,3,Chemistry
+CHEM F243,Organic Chemistry II,3,Chemistry
+CHEM F244,Physical Chemistry III,3,Chemistry
+CHEM F266,Study Project,3,Chemistry
+CHEM F311,Organic Chemistry III,3,Chemistry
+CHEM F312,Physical Chemistry IV,3,Chemistry
+CHEM F313,Instrumental Methods of Analysis,4,Chemistry
+CHEM F323,Biophysical Chemistry,3,Chemistry
+CHEM F325,Polymer Chemistry,3,Chemistry
+CHEM F326,Solid State Chemistry,3,Chemistry
+CHEM F327,Electrochemistry: Fundamentals and Applications,3,Chemistry
+CHEM F328,Supramolecular Chemistry,3,Chemistry
+CHEM F330,Photophysical Chemistry,4,Chemistry
+CHEM F333,Chemistry of Materials,3,Chemistry
+CHEM F341,Chemical Experimentation II,4,Chemistry
+CHEM F342,Organic Chemistry IV,3,Chemistry
+CHEM F343,Inorganic Chemistry III,3,Chemistry
+CHEM F366,Laboratory Project,3,Chemistry
+CHEM F367,Laboratory Project,3,Chemistry
+CHEM F376,Design Project,3,Chemistry
+CHEM F377,Design Project,3,Chemistry
+CHEM F414,Bio and Chemical Sensors,3,Chemistry
+CHEM F431,Sustainable Chemistry using Renewables,3,Chemistry
+CHEM F491,Special Project,3,Chemistry
+CHEM U101,"Atomic Structures, Bonding and Spectroscopy",7,Chemistry
+CHEM U102,Structure and Reactivity of Molecules,7,Chemistry
+CHEM U110,Chemistry Laboratory,3,Chemistry
 CS F211,Data Structures & Algorithms,4,Computer Science
 CS F212,Database Systems,4,Computer Science
 CS F213,Object Oriented Programming,4,Computer Science
@@ -6,10 +204,387 @@ CS F214,Logic in Computer Science,3,Computer Science
 CS F215,Digital Design,4,Computer Science
 CS F222,Discrete Structures for Computer Science,3,Computer Science
 CS F241,Microprocessors & Interfacing,4,Computer Science
+CS F266,Study Project,3,Computer Science
 CS F301,Principles of Programming Languages,2,Computer Science
 CS F303,Computer Networks,4,Computer Science
+CS F314,Software Development for Portable Devices,3,Computer Science
+CS F316,Quantum Architecture and Programming,3,Computer Science
+CS F320,Foundations of Data Science,3,Computer Science
+CS F321,System Security,3,Computer Science
 CS F342,Computer Architecture,4,Computer Science
 CS F351,Theory of Computation,3,Computer Science
+CS F362,Programming Lang & Compiler Construction,4,Computer Science
 CS F363,Compiler Construction,3,Computer Science
 CS F364,Design & Analysis of Algorithms,3,Computer Science
+CS F366,Laboratory Project,3,Computer Science
+CS F367,Laboratory Project,3,Computer Science
 CS F372,Operating Systems,3,Computer Science
+CS F376,Design Project,3,Computer Science
+CS F377,Design Project,3,Computer Science
+CS F402,Computational Geometry,3,Computer Science
+CS F407,Artificial Intelligence,3,Computer Science
+CS F415,Data Mining,3,Computer Science
+CS F422,Parallel Computing,3,Computer Science
+CS F425,Deep Learning,3,Computer Science
+CS F429,Natural Language Processing,3,Computer Science
+CS F431,Combinatorial Optimization,3,Computer Science
+CS F434,Data science for Healthcare,3,Computer Science
+CS F437,Generative Artificial Intelligence,3,Computer Science
+CS F446,Data Storage Technologies and Networks,3,Computer Science
+CS F469,Information Retrieval,3,Computer Science
+CS F491,Special Project,3,Computer Science
+CS G513,Network Security,4,Computer Science
+CS G516,Advanced Database Systems,4,Computer Science
+CS G518,Internet of Things: Design and Development,4,Computer Science
+CS G520,Advanced Data Mining,4,Computer Science
+CS G523,Software for Embedded Systems,5,Computer Science
+CS G524,Advanced Computer Architecture,5,Computer Science
+CS G525,Advanced Computer Networks,5,Computer Science
+CS G526,Advanced Algorithms and Complexity,5,Computer Science
+CS G541,Pervasive Computing,4,Computer Science
+CS G553,Reconfigurable Computing,5,Computer Science
+CS G623,Advanced Operating Systems,5,Computer Science
+CS U111,Computational Thinking and Programming,12,Computer Science
+DE G514,Fracture Mechanics,5,Mechanical Engineering
+DE G531,Product Design,5,Mechanical Engineering
+DE G611,Dynamics & Vibration,5,Mechanical Engineering
+ECE F211,Electrical Machines,4,Electrical and Electronics Engineering
+ECE F212,Electromagnetic Theory,3,Electrical and Electronics Engineering
+ECE F214,Electronic Devices,3,Electrical and Electronics Engineering
+ECE F215,Digital Design,4,Electrical and Electronics Engineering
+ECE F216,Electronic Devices Simulation Laboratory,2,Electrical and Electronics Engineering
+ECE F241,Microprocessors and interfacing,4,Electrical and Electronics Engineering
+ECE F242,Control Systems,3,Electrical and Electronics Engineering
+ECE F243,Signals & Systems,3,Electrical and Electronics Engineering
+ECE F244,Microelectronic Circuits,3,Electrical and Electronics Engineering
+ECE F266,Study Project,3,Electrical and Electronics Engineering
+ECE F311,Communication Systems,4,Electrical and Electronics Engineering
+ECE F331,Microwave Engineering,4,Electrical and Electronics Engineering
+ECE F341,Analog Electronics,4,Electrical and Electronics Engineering
+ECE F343,Communication Networks,3,Electrical and Electronics Engineering
+ECE F344,Information Theory & Coding,3,Electrical and Electronics Engineering
+ECE F366,Laboratory Project,3,Electrical and Electronics Engineering
+ECE F367,Laboratory Project,3,Electrical and Electronics Engineering
+ECE F376,Design Project,3,Electrical and Electronics Engineering
+ECE F377,Design Project,3,Electrical and Electronics Engineering
+ECE F416,Digital Communication,3,Electrical and Electronics Engineering
+ECE F431,Mobile Telecommunication Networks,3,Electrical and Electronics Engineering
+ECE F434,Digital Signal Processing,4,Electrical and Electronics Engineering
+ECE F491,Special Project,3,Electrical and Electronics Engineering
+ECOM F213,Object Oriented Programming,4,Electrical and Electronics Engineering
+ECOM F214,Electronic Devices,3,Electrical and Electronics Engineering
+ECOM F215,Digital Design,4,Electrical and Electronics Engineering
+ECOM F222,Discrete Structures for Computer Science,3,Electrical and Electronics Engineering
+ECOM F266,Study Project,3,Electrical and Electronics Engineering
+ECOM F342,Computer Architecture,4,Electrical and Electronics Engineering
+ECON F211,Principles of Economics,3,Economics and Finance
+ECON F212,Fundamentals of Finance and Accounts,3,Economics and Finance
+ECON F213,Mathematical and Statistical Methods,3,Economics and Finance
+ECON F214,Economic Environment of Business,3,Economics and Finance
+ECON F215,Computational Methods for Economics,3,Economics and Finance
+ECON F241,Econometric Methods,3,Economics and Finance
+ECON F242,Microeconomics,3,Economics and Finance
+ECON F243,Macroeconomics,3,Economics and Finance
+ECON F244,Economics of Growth and Development,3,Economics and Finance
+ECON F266,Study Project,3,Economics and Finance
+ECON F311,International Economics,3,Economics and Finance
+ECON F312,"Money, Banking and Financial Markets",3,Economics and Finance
+ECON F313,Issues in Economic Development,3,Economics and Finance
+ECON F315,Financial Management,3,Economics and Finance
+ECON F341,Public Finance Theory and Policy,3,Economics and Finance
+ECON F342,Applied Econometrics,3,Economics and Finance
+ECON F343,Economic Analysis of Public Policy,3,Economics and Finance
+ECON F354,Derivatives and Risk Management,3,Economics and Finance
+ECON F355,Business Analysis and Valuation,3,Economics and Finance
+ECON F366,Laboratory Project,3,Economics and Finance
+ECON F367,Laboratory Project,3,Economics and Finance
+ECON F376,Design Project,3,Economics and Finance
+ECON F377,Design Project,3,Economics and Finance
+ECON F412,Security Analysis and Portfolio Management,3,Economics and Finance
+ECON F415,New Venture Creation,3,Economics and Finance
+ECON F420,Applied Macroeconometrics,3,Economics and Finance
+ECON F435,Marketing Research,3,Economics and Finance
+ECON F491,Special Project,3,Economics and Finance
+EE G503,Environmental Systems Modelling3,5,Electrical and Electronics Engineering
+EE G605,Environmental Process Engineerin3g,5,Electrical and Electronics Engineering
+EEE F111,Electrical Sciences,3,Electrical and Electronics Engineering
+EEE F211,Electrical Machines,4,Electrical and Electronics Engineering
+EEE F212,Electromagnetic Theory,3,Electrical and Electronics Engineering
+EEE F214,Electronic Devices,3,Electrical and Electronics Engineering
+EEE F215,Digital Design,4,Electrical and Electronics Engineering
+EEE F216,Electronic Devices Simulation Laboratory,2,Electrical and Electronics Engineering
+EEE F241,Microprocessors and interfacing,4,Electrical and Electronics Engineering
+EEE F242,Control Systems,3,Electrical and Electronics Engineering
+EEE F243,Signals & Systems,3,Electrical and Electronics Engineering
+EEE F244,Microelectronic Circuits,3,Electrical and Electronics Engineering
+EEE F266,Study Project,3,Electrical and Electronics Engineering
+EEE F311,Communication Systems,4,Electrical and Electronics Engineering
+EEE F312,Power Systems,3,Electrical and Electronics Engineering
+EEE F313,Analog & Digital VLSI Design,3,Electrical and Electronics Engineering
+EEE F318,FPGA Based System Design,3,Electrical and Electronics Engineering
+EEE F341,Analog Electronics,4,Electrical and Electronics Engineering
+EEE F342,Power Electronics,4,Electrical and Electronics Engineering
+EEE F346,Data Communication Networks,2,Electrical and Electronics Engineering
+EEE F366,Laboratory Project,3,Electrical and Electronics Engineering
+EEE F367,Laboratory Project,3,Electrical and Electronics Engineering
+EEE F376,Design Project,3,Electrical and Electronics Engineering
+EEE F377,Design Project,3,Electrical and Electronics Engineering
+EEE F411,Internet of Things,4,Electrical and Electronics Engineering
+EEE F416,Digital Communication,3,Electrical and Electronics Engineering
+EEE F422,Modern Control Systems,3,Electrical and Electronics Engineering
+EEE F424,Smart Grid for Sustainable Energy,3,Electrical and Electronics Engineering
+EEE F431,Mobile Telecommunication Networks,3,Electrical and Electronics Engineering
+EEE F432,Medical Instrumentation,3,Electrical and Electronics Engineering
+EEE F434,Digital Signal Processing,4,Electrical and Electronics Engineering
+EEE F435,Digital Image Processing,3,Electrical and Electronics Engineering
+EEE F437,Semiconductor Fabrication Technology,4,Electrical and Electronics Engineering
+EEE F473,Wind Electrical Systems,3,Electrical and Electronics Engineering
+EEE F474,Antenna Theory and Design,4,Electrical and Electronics Engineering
+EEE F477,Modelling of Field-Effect NanoDevices,3,Electrical and Electronics Engineering
+EEE F491,Special Project,3,Electrical and Electronics Engineering
+EEE G512,Embedded System Design,4,Electrical and Electronics Engineering
+EEE G513,Machine Learning for Electronics Engineers,4,Electrical and Electronics Engineering
+EEE G515,Real Embedded Time Systems,5,Electrical and Electronics Engineering
+EEE G516,Signal Theory and Optimization,5,Electrical and Electronics Engineering
+EEE G523,Processor Architecture & Design,5,Electrical and Electronics Engineering
+EEE G548,Distr & Netw Emb Sys,4,Electrical and Electronics Engineering
+EEE G595,Nanoelectronics and Nanophotonics Technology,5,Electrical and Electronics Engineering
+EEE G622,Adv Digital Communication,5,Electrical and Electronics Engineering
+EEE G626,Hardware Software Co-Design,4,Electrical and Electronics Engineering
+EEE G629,Advanced Design Project,4,Electrical and Electronics Engineering
+EEE U111,Electrical Sciences,10,Electrical and Electronics Engineering
+ENVS F211,Hydraulics and Fluid Mechanics,3,Environmental Studies
+ENVS F212,Environmental Chemistry and Environmental Biotechnology,3,Environmental Studies
+FIN F311,Derivatives & Risk Management,3,Economics and Finance
+FIN F313,Security Analysis & Portfolio Management,3,Economics and Finance
+FIN F315,Financial Management,3,Economics and Finance
+FIN F414,Financial Risk Analytics and Management,3,Economics and Finance
+GS F211,Modern Political Concepts,3,Humanities and Social Sciences
+GS F212,"Environment, Development & Climate Change",3,Humanities and Social Sciences
+GS F231,Dynamics of Social Change,3,Humanities and Social Sciences
+GS F232,Introductory Psychology,3,Humanities and Social Sciences
+GS F233,Public Policy,3,Humanities and Social Sciences
+GS F234,Development Economics,3,Humanities and Social Sciences
+GS F241,Creative Writing,3,Humanities and Social Sciences
+GS F242,Cultural Studies,3,Humanities and Social Sciences
+GS F245,Effective Public Speaking,3,Humanities and Social Sciences
+GS F322,Critical Analysis of Literature and Cinema,3,Humanities and Social Sciences
+GS F326,Creative Thinking,3,Humanities and Social Sciences
+HSS F101,Understanding Self & Society,2,Humanities and Social Sciences
+HSS F222,Linguistics,3,Humanities and Social Sciences
+HSS F226,Postmodernism,3,Humanities and Social Sciences
+HSS F232,Introduction to Development Studies,3,Humanities and Social Sciences
+HSS F235,Introductory Philosophy,3,Humanities and Social Sciences
+HSS F253,Upcycling Theory,3,Humanities and Social Sciences
+HSS F254,Food and Society,3,Humanities and Social Sciences
+HSS F266,Study Project,3,Humanities and Social Sciences
+HSS F314,Maritime Studies and Blue Economy,3,Humanities and Social Sciences
+HSS F317,Introduction to Globalization,3,Humanities and Social Sciences
+HSS F318,Introduction to Anthropology,3,Humanities and Social Sciences
+HSS F330,Appreciation of Art,3,Humanities and Social Sciences
+HSS F332,Cinematic Art,3,Humanities and Social Sciences
+HSS F334,Srimad Bhagavad Gita,3,Humanities and Social Sciences
+HSS F337,English Literary Forms and Movements,3,Humanities and Social Sciences
+HSS F338,Comparative Indian Literature,3,Humanities and Social Sciences
+HSS F339,Theatre Art Acting and Production,3,Humanities and Social Sciences
+HSS F340,Post Colonial Literatures,3,Humanities and Social Sciences
+HSS F343,Professional Ethics,3,Humanities and Social Sciences
+HSS F347,Introduction to Carnatic Music,3,Humanities and Social Sciences
+HSS F349,Ecocriticism,3,Humanities and Social Sciences
+HSS F362,Local Governance and Participation,3,Humanities and Social Sciences
+HSS F363,Disaster and Development,3,Humanities and Social Sciences
+HSS F368,Asian Cinemas and Cultures,3,Humanities and Social Sciences
+HSS F371,"Cities-Life, Issues and Conflicts",3,Humanities and Social Sciences
+HSS F372,Introduction to Social Psychology,3,Humanities and Social Sciences
+HSS F373,Shakespeare and Popular Culture,3,Humanities and Social Sciences
+HSS F381,Environmental Sustainability Ventures,3,Humanities and Social Sciences
+HSS F383,Introduction to Museum Studies,3,Humanities and Social Sciences
+HSS F391,Acoustic Humanities,3,Humanities and Social Sciences
+INSTR F211,Electrical Machines,4,Electrical and Electronics Engineering
+INSTR F212,Electromagnetic Theory,3,Electrical and Electronics Engineering
+INSTR F214,Electronic Devices,3,Electrical and Electronics Engineering
+INSTR F215,Digital Design,4,Electrical and Electronics Engineering
+INSTR F216,Electronic Devices Simulation Laboratory,2,Electrical and Electronics Engineering
+INSTR F241,Microprocessors and interfacing,4,Electrical and Electronics Engineering
+INSTR F242,Control Systems,3,Electrical and Electronics Engineering
+INSTR F243,Signals & Systems,3,Electrical and Electronics Engineering
+INSTR F244,Microelectronic Circuits,3,Electrical and Electronics Engineering
+INSTR F266,Study Project,3,Electrical and Electronics Engineering
+INSTR F311,Electronic Instrumentation & Instrumentation Technology,4,Electrical and Electronics Engineering
+INSTR F312,Transducers and Measurement Systems,3,Electrical and Electronics Engineering
+INSTR F313,Analog & Digital VLSI Design,3,Electrical and Electronics Engineering
+INSTR F341,Analog Electronics,4,Electrical and Electronics Engineering
+INSTR F342,Power Electronics,4,Electrical and Electronics Engineering
+INSTR F343,Industrial Instrumentation & Control,3,Electrical and Electronics Engineering
+INSTR F366,Laboratory Project,3,Electrical and Electronics Engineering
+INSTR F367,Laboratory Project,3,Electrical and Electronics Engineering
+INSTR F376,Design Project,3,Electrical and Electronics Engineering
+INSTR F377,Design Project,3,Electrical and Electronics Engineering
+INSTR F432,Medical Instrumentation,3,Electrical and Electronics Engineering
+INSTR F491,Special Project,3,Electrical and Electronics Engineering
+IS F341,Software Engineering,4,Computer Science
+MAC F211,Linear Algebra and Its Applications,3,Mathematics
+MAC F212,Object Oriented Programming,4,Mathematics
+MAC F213,Discrete Mathematics,3,Mathematics
+MAC F214,Elementary Real Analysis,3,Mathematics
+MAC F241,Numerical Analysis,3,Mathematics
+MAC F242,Data Structures & Algorithms,4,Mathematics
+MAC F243,Numerical Optimization,3,Mathematics
+MAC F244,Stochastic Calculus and Application to Finance,3,Mathematics
+MAC F245,Scientific Computing Laboratory,1,Mathematics
+MAC F311,Algebra I,3,Mathematics
+MAC F312,Foundations of Data Science,3,Mathematics
+MAC F313,Statistical Data Analysis,4,Mathematics
+MAC F314,Mathematical Modelling,4,Mathematics
+MAC F411,Computation of Option Pricing Models,4,Mathematics
+MATH F102,Linear Algebra and Complex Variables,3,Mathematics
+MATH F113,Probability and Statistics,3,Mathematics
+MATH F211,Mathematics III,3,Mathematics
+MATH F212,Optimization,3,Mathematics
+MATH F213,Discrete Mathematics,3,Mathematics
+MATH F214,Elementary Real Analysis,3,Mathematics
+MATH F215,Algebra I,3,Mathematics
+MATH F241,Mathematical Methods,3,Mathematics
+MATH F242,Operations Research,3,Mathematics
+MATH F243,Graphs and Networks,3,Mathematics
+MATH F244,Measure & Integration,3,Mathematics
+MATH F266,Study Project,3,Mathematics
+MATH F311,Introduction to Topology,3,Mathematics
+MATH F312,Ordinary Differential Equations,3,Mathematics
+MATH F313,Numerical Analysis,3,Mathematics
+MATH F314,Algebra II,3,Mathematics
+MATH F315,Introduction to Statistical Inference,3,Mathematics
+MATH F341,Introduction to Functional Analysis,3,Mathematics
+MATH F342,Differential Geometry,3,Mathematics
+MATH F343,Partial Differential Equations,3,Mathematics
+MATH F366,Laboratory Project,3,Mathematics
+MATH F367,Laboratory Project,3,Mathematics
+MATH F376,Design Project,3,Mathematics
+MATH F377,Design Project,3,Mathematics
+MATH F420,Mathematical Modeling,4,Mathematics
+MATH F425,Numerical Linear Algebra,4,Mathematics
+MATH F428,Time Series Analysis and Forecasting,4,Mathematics
+MATH F432,Applied Statistical Methods,3,Mathematics
+MATH F441,Discrete Mathematical Structures,3,Mathematics
+MATH F471,Nonlinear Optimization,3,Mathematics
+MATH F491,Special Project,3,Mathematics
+MATH G513,Topics in Algebra,5,Mathematics
+MATH G515,Topics in Differential Equations,5,Mathematics
+MATH G516,Topics in Topology,5,Mathematics
+MATH U101,Multivariable Calculus,10,Mathematics
+MATH U113,Probability and Statistics,12,Mathematics
+ME F112,Workshop Practice,2,Mechanical Engineering
+ME F211,Mechanics of Solids,3,Mechanical Engineering
+ME F212,Fluid Mechanics,3,Mechanical Engineering
+ME F216,Materials Science and Engineering,3,Mechanical Engineering
+ME F217,Applied Thermodynamics,4,Mechanical Engineering
+ME F218,Advanced Mechanics of Solids,2,Mechanical Engineering
+ME F219,Manufacturing Processes,4,Mechanical Engineering
+ME F220,Heat Transfer,4,Mechanical Engineering
+ME F221,Mechanisms and Machines,3,Mechanical Engineering
+ME F266,Study Project,3,Mechanical Engineering
+ME F314,Design of Machine Elements,3,Mechanical Engineering
+ME F315,Advanced Manufacturing Processes,3,Mechanical Engineering
+ME F316,Manufacturing Management,2,Mechanical Engineering
+ME F317,"Engines, Motors, and Mobility",2,Mechanical Engineering
+ME F318,Computer-Aided Design,3,Mechanical Engineering
+ME F319,Vibrations and Control,3,Mechanical Engineering
+ME F320,Engineering Optimization,3,Mechanical Engineering
+ME F321,Data Mining in Mechanical Sciences,3,Mechanical Engineering
+ME F323,Energy Storage Technologies,3,Mechanical Engineering
+ME F341,Prime Movers & Fluid Machines,3,Mechanical Engineering
+ME F366,Laboratory Project,3,Mechanical Engineering
+ME F367,Laboratory Project,3,Mechanical Engineering
+ME F376,Design Project,3,Mechanical Engineering
+ME F377,Design Project,3,Mechanical Engineering
+ME F415,Gas Dynamics,3,Mechanical Engineering
+ME F423,Microfluidics and Applications,4,Mechanical Engineering
+ME F425,Additive Manufacturing,3,Mechanical Engineering
+ME F427,Continuum Mechanics,4,Mechanical Engineering
+ME F428,Smart Materials,4,Mechanical Engineering
+ME F430,Fluid-Structure Interactions,3,Mechanical Engineering
+ME F443,Quality Control Assurance and Reliability,3,Mechanical Engineering
+ME F451,Mechanical Equipment Design,3,Mechanical Engineering
+ME F452,Composite Materials & Design,3,Mechanical Engineering
+ME F461,Refrigeration and Air conditioning,3,Mechanical Engineering
+ME F482,Combustion,3,Mechanical Engineering
+ME F485,Numerical Techniques for Fluid Flow and Heat Transfer,3,Mechanical Engineering
+ME F491,Special Projects,3,Mechanical Engineering
+ME G511,Mechanisms & Robotics,5,Mechanical Engineering
+ME G515,Computational Fluid Dynamics,5,Mechanical Engineering
+ME G523,Engineering Data Analytics,2,Mechanical Engineering
+ME G524,Smart Materials and System,4,Mechanical Engineering
+ME G526,Computational Musculoskeletal Biomechanics,4,Mechanical Engineering
+ME G532,Machine Tool Engineering,5,Mechanical Engineering
+ME G534,Convective Heat and Mass Transfer,5,Mechanical Engineering
+ME G535,Advanced Engineering Mathematics,5,Mechanical Engineering
+ME G611,Computer Aided Analysis and Design,5,Mechanical Engineering
+ME G615,Computer Aided Design & Additive Manufacturing,4,Mechanical Engineering
+ME G631,Advanced Heat Transfer,5,Mechanical Engineering
+ME G641,Theory of Elasticity and Plasticity,5,Mechanical Engineering
+ME U103,Engineering Design and Prototyping,12,Mechanical Engineering
+MEL G533,Soc Test and Power Aware Testing,5,Mechanical Engineering
+MEL G623,Advanced VLSI Design,5,Mechanical Engineering
+MEL G625,Advanced Analog and Mixed Signal Design,5,Mechanical Engineering
+MEL G627,VLSI Fabrication Technology,5,Mechanical Engineering
+MEL G628,Digital VLSI Design,5,Mechanical Engineering
+MEL G631,Phy & Mo of Microel Dev,5,Mechanical Engineering
+MEL G632,Analog IC Design,5,Mechanical Engineering
+MEL G641,CAD for IC Design,5,Mechanical Engineering
+MF F319,Supply Chain Management,3,Mechanical Engineering
+MF F421,Supply chain management,4,Mechanical Engineering
+MF F422,Supply Chain Modelling and Empirical Analysis,4,Mechanical Engineering
+MGTS F211,Principles of Management,3,Management
+MGTS U102,Innovation and Design Thinking,3,Management
+MSE G601,Supply Chain Management,4,Mechanical Engineering
+MST G522,Advanced Composites,5,Mechanical Engineering
+PHY F101,Oscillations and Waves,3,Physics
+PHY F211,Classical Mechanics,4,Physics
+PHY F212,Electromagnetic Theory I,3,Physics
+PHY F213,Optics,3,Physics
+PHY F214,"Electricity, Magnetism & Optics Laboratory",2,Physics
+PHY F215,Introduction to Astronomy & Astrophysics,3,Physics
+PHY F241,Electromagnetic Theory II,4,Physics
+PHY F242,Quantum Mechanics I,3,Physics
+PHY F243,Mathematical Methods of Physics,3,Physics
+PHY F244,Modern Physics Laboratory,2,Physics
+PHY F266,Study Project,3,Physics
+PHY F311,Quantum Mechanics II,3,Physics
+PHY F312,Statistical Mechanics,3,Physics
+PHY F313,Computational Physics,3,Physics
+PHY F315,Theory of Relativity,3,Physics
+PHY F317,Introduction to Radio Astronomy,3,Physics
+PHY F318,Atoms and Photons,3,Physics
+PHY F341,Solid State Physics,3,Physics
+PHY F342,Atomic & Molecular Physics,3,Physics
+PHY F343,Nuclear & Particle Physics,3,Physics
+PHY F344,Advanced Physics Laboratory,3,Physics
+PHY F366,Laboratory Project,3,Physics
+PHY F367,Laboratory Project,3,Physics
+PHY F376,Design Project,3,Physics
+PHY F377,Design Project,3,Physics
+PHY F412,Introduction To Quantum Field Theory,4,Physics
+PHY F413,Particle Physics,4,Physics
+PHY F416,Soft Condensed Matter Physics,4,Physics
+PHY F426,Physics of Semiconductor Devices,4,Physics
+PHY F428,Quantum Information Theory,3,Physics
+PHY F433,Topics in Nonlinear Optics,3,Physics
+PHY F438,Fundamentals of Quantum Field Theory,3,Physics
+PHY F491,Special Project,3,Physics
+PHY G513,Classical Electrodynamic,4,Physics
+PHY G514,Quantum Theory and Applications,4,Physics
+PHY G516,Statistical Physics & Applications,4,Physics
+PHY U101,Classical and Quantum Waves,7,Physics
+PHY U102,Introduction to Classical and Quantum Waves,7,Physics
+PHY U110,Physics Laboratory,3,Physics
+QT G511,Mathematical Foundations of Quantum Theory,4,Physics
+QT G512,Quantum Computing and Information,4,Physics
+QT G513,Overview of Hardware for Quantum Technologies,2,Physics
+QT G514,Quantum Communication and Networking,4,Physics
+QT G515,Experimental Techniques for Quantum Technologies,4,Physics
+QT G520,Quantum Computing Applications Using Nisq Devices,5,Physics
+SNS F214,Fundamentals of Solid State Physics,3,Semiconductor and Nanoscience
+SNS F241,Chemistry at Nanoscale,3,Semiconductor and Nanoscience
+SNS F242,Electronic Devices,3,Semiconductor and Nanoscience
+SW E101,Social Conduct I,1,Computer Science
+SW E102,Basic Fitness,1,Computer Science
