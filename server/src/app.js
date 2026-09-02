@@ -1,6 +1,10 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import {
+    errorHandler,
+    notFoundHandler,
+} from "./middleware/error.middleware.js";
 import authRouter from "./routes/auth.routes.js";
 import courseRouter from "./routes/course.routes.js";
 import semesterCourseRouter from "./routes/semester-course.routes.js";
@@ -44,5 +48,11 @@ app.use(
     "/api/semester-courses",
     semesterCourseRouter
 );
+
+// Return JSON for unknown API routes.
+app.use(notFoundHandler);
+
+// Central Express error middleware.
+app.use(errorHandler);
 
 export default app;

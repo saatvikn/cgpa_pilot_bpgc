@@ -1,6 +1,6 @@
 import pool from "../config/db.js";
 
-export async function getCourses(request, response) {
+export async function getCourses(request, response, next) {
     try {
         const search = String(request.query.search || "").trim();
         const searchPattern = `%${search}%`;
@@ -24,14 +24,10 @@ export async function getCourses(request, response) {
             [searchPattern]
         );
 
-        response.status(200).json({
+        return response.status(200).json({
             courses: result.rows,
         });
     } catch (error) {
-        console.error("Course lookup failed:", error);
-
-        response.status(500).json({
-            error: "Unable to load courses",
-        });
+        return next(error);
     }
 }

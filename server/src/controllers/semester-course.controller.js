@@ -7,10 +7,7 @@ import {
 import { semesterIdSchema } from "../validation/semester.schemas.js";
 import { calculateSgpa } from "../utils/gpa.js";
 
-export async function getSemesterCourses(
-    request,
-    response
-) {
+export async function getSemesterCourses(request, response, next) {
     const idValidation = semesterIdSchema.safeParse(
         request.params.id
     );
@@ -65,21 +62,11 @@ export async function getSemesterCourses(
             sgpaSummary,
         });
     } catch (error) {
-        console.error(
-            "Semester course list failed:",
-            error.message
-        );
-
-        return response.status(500).json({
-            error: "Could not get semester courses",
-        });
+        return next(error);
     }
 }
 
-export async function addCourseToSemester(
-    request,
-    response
-) {
+export async function addCourseToSemester(request, response, next) {
     const idValidation = semesterIdSchema.safeParse(
         request.params.id
     );
@@ -166,21 +153,11 @@ export async function addCourseToSemester(
             });
         }
 
-        console.error(
-            "Add semester course failed:",
-            error.message
-        );
-
-        return response.status(500).json({
-            error: "Could not add course to semester",
-        });
+        return next(error);
     }
 }
 
-export async function updateSemesterCourseGrade(
-    request,
-    response
-) {
+export async function updateSemesterCourseGrade(request, response, next) {
     const idValidation = semesterCourseIdSchema.safeParse(
         request.params.semesterCourseId
     );
@@ -240,18 +217,11 @@ export async function updateSemesterCourseGrade(
             });
         }
 
-        console.error(
-            "Update semester course grade failed:",
-            error.message
-        );
-
-        return response.status(500).json({
-            error: "Could not update grade",
-        });
+        return next(error);
     }
 }
 
-export async function deleteSemesterCourse(request, response) {
+export async function deleteSemesterCourse(request, response, next) {
     const idValidation = semesterCourseIdSchema.safeParse(
         request.params.semesterCourseId
     );
@@ -286,13 +256,6 @@ export async function deleteSemesterCourse(request, response) {
             message: "Course removed from semester",
         });
     } catch (error) {
-        console.error(
-            "Remove semester course failed:",
-            error.message
-        );
-
-        return response.status(500).json({
-            error: "Could not remove course from semester",
-        });
+        return next(error);
     }
 }

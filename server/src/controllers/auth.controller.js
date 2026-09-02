@@ -33,7 +33,7 @@ function clearAuthCookie(response) {
     );
 }
 
-export async function registerUser(request, response) {
+export async function registerUser(request, response, next) {
     const validationResult = registerSchema.safeParse(request.body);
 
     if (!validationResult.success) {
@@ -81,15 +81,11 @@ export async function registerUser(request, response) {
             });
         }
 
-        console.error("User registration failed:", error.message);
-
-        return response.status(500).json({
-            error: "Could not register user",
-        });
+        return next(error);
     }
 }
 
-export async function loginUser(request, response) {
+export async function loginUser(request, response, next) {
     const validationResult = loginSchema.safeParse(request.body);
 
     if (!validationResult.success) {
@@ -139,11 +135,7 @@ export async function loginUser(request, response) {
             },
         });
     } catch (error) {
-        console.error("User login failed:", error.message);
-
-        return response.status(500).json({
-            error: "Could not log in",
-        });
+        return next(error);
     }
 }
 
@@ -156,7 +148,7 @@ export function logoutUser(request, response) {
     });
 }
 
-export async function getCurrentUser(request, response) {
+export async function getCurrentUser(request, response, next) {
     try {
         const userResult = await pool.query(
             `SELECT id, email, created_at
@@ -177,13 +169,6 @@ export async function getCurrentUser(request, response) {
             user: userResult.rows[0],
         });
     } catch (error) {
-        console.error(
-            "Current user lookup failed:",
-            error.message
-        );
-
-        return response.status(500).json({
-            error: "Could not get current user",
-        });
+        return next(error);
     }
 }

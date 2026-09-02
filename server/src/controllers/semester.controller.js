@@ -6,7 +6,7 @@ import {
 } from "../validation/semester.schemas.js";
 import { calculateCgpa } from "../utils/gpa.js";
 
-export async function getSemesters(request, response) {
+export async function getSemesters(request, response, next) {
     try {
         // Return only the authenticated user's semesters.
         const semesterResult = await pool.query(
@@ -82,18 +82,11 @@ export async function getSemesters(request, response) {
             },
         });
     } catch (error) {
-        console.error(
-            "Semester list failed:",
-            error.message
-        );
-
-        return response.status(500).json({
-            error: "Could not get semesters",
-        });
+        return next(error);
     }
 }
 
-export async function createSemester(request, response) {
+export async function createSemester(request, response, next) {
     const validationResult = createSemesterSchema.safeParse(request.body);
 
     if (!validationResult.success) {
@@ -132,15 +125,11 @@ export async function createSemester(request, response) {
             });
         }
 
-        console.error("Semester creation failed:", error.message);
-
-        return response.status(500).json({
-            error: "Could not create semester",
-        });
+        return next(error);
     }
 }
 
-export async function getSemesterById(request, response) {
+export async function getSemesterById(request, response, next) {
     const idValidation = semesterIdSchema.safeParse(request.params.id);
 
     if (!idValidation.success) {
@@ -176,15 +165,11 @@ export async function getSemesterById(request, response) {
             semester: semesterResult.rows[0],
         });
     } catch (error) {
-        console.error("Semester lookup failed:", error.message);
-
-        return response.status(500).json({
-            error: "Could not get semester",
-        });
+        return next(error);
     }
 }
 
-export async function updateSemester(request, response) {
+export async function updateSemester(request, response, next) {
     const idValidation = semesterIdSchema.safeParse(request.params.id);
 
     if (!idValidation.success) {
@@ -248,15 +233,11 @@ export async function updateSemester(request, response) {
             });
         }
 
-        console.error("Semester update failed:", error.message);
-
-        return response.status(500).json({
-            error: "Could not update semester",
-        });
+        return next(error);
     }
 }
 
-export async function deleteSemester(request, response) {
+export async function deleteSemester(request, response, next) {
     const idValidation = semesterIdSchema.safeParse(request.params.id);
 
     if (!idValidation.success) {
@@ -286,13 +267,6 @@ export async function deleteSemester(request, response) {
             message: "Semester deleted",
         });
     } catch (error) {
-        console.error(
-            "Semester deletion failed:",
-            error.message
-        );
-
-        return response.status(500).json({
-            error: "Could not delete semester",
-        });
+        return next(error);
     }
 }
