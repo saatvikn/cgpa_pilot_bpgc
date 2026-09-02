@@ -4,9 +4,18 @@ import pool from "../src/config/db.js";
 
 async function runMigration() {
     try {
-        // Read the schema from its version-controlled SQL file.
+        const migrationFile = process.argv[2];
+        const validFileName = /^\d{3}_[a-z0-9_]+\.sql$/;
+
+        if (!migrationFile || !validFileName.test(migrationFile)) {
+            throw new Error(
+                "Provide a migration file, for example: npm run migrate -- 002_indexes.sql"
+            );
+        }
+
+        // Read only a valid migration from the SQL folder.
         const migrationPath = new URL(
-            "../sql/001_initial_schema.sql",
+            `../sql/${migrationFile}`,
             import.meta.url
         );
 
@@ -14,7 +23,7 @@ async function runMigration() {
 
         await pool.query(migrationSql);
 
-        console.log("Initial database schema created.");
+        console.log(`Migration ${migrationFile} completed.`);
     } catch (error) {
         console.error("Migration failed:", error.message);
         process.exitCode = 1;
