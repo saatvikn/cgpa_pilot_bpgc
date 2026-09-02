@@ -21,12 +21,20 @@ const GRADE_OPTIONS = [
     "E",
 ];
 
+const EMPTY_SGPA_SUMMARY = {
+    sgpa: null,
+    gradedCredits: 0,
+    gradedCourseCount: 0,
+    totalCourseCount: 0,
+};
+
 export default function SemesterDetailsPage() {
     const router = useRouter();
     const { semesterId } = useParams();
 
     const [semester, setSemester] = useState(null);
     const [semesterCourses, setSemesterCourses] = useState([]);
+    const [sgpaSummary, setSgpaSummary] = useState(EMPTY_SGPA_SUMMARY);
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(true);
 
@@ -38,17 +46,12 @@ export default function SemesterDetailsPage() {
     const [hasSearched, setHasSearched] = useState(false);
     const [addingCourseId, setAddingCourseId] = useState(null);
 
-    const [pendingRemoveCourseId, setPendingRemoveCourseId] =
-        useState(null);
-    const [removeCourseError, setRemoveCourseError] =
-        useState("");
-    const [isRemovingCourse, setIsRemovingCourse] =
-        useState(false);
+    const [pendingRemoveCourseId, setPendingRemoveCourseId] = useState(null);
+    const [removeCourseError, setRemoveCourseError] = useState("");
+    const [isRemovingCourse, setIsRemovingCourse] = useState(false);
 
-    const [updatingGradeCourseId, setUpdatingGradeCourseId] =
-        useState(null);
-    const [gradeErrorCourseId, setGradeErrorCourseId] =
-        useState(null);
+    const [updatingGradeCourseId, setUpdatingGradeCourseId] = useState(null);
+    const [gradeErrorCourseId, setGradeErrorCourseId] = useState(null);
     const [gradeError, setGradeError] = useState("");
 
     useEffect(() => {
@@ -65,6 +68,9 @@ export default function SemesterDetailsPage() {
                 if (isActive) {
                     setSemester(semesterData.semester);
                     setSemesterCourses(courseData.semesterCourses);
+                    setSgpaSummary(
+                        courseData.sgpaSummary ?? EMPTY_SGPA_SUMMARY
+                    );
                 }
             } catch (requestError) {
                 if (!isActive) {
@@ -90,6 +96,18 @@ export default function SemesterDetailsPage() {
             isActive = false;
         };
     }, [router, semesterId]);
+
+    async function refreshSemesterCourses() {
+        const courseData = await apiRequest(
+            `/api/semesters/${semesterId}/courses`
+        );
+
+        // Keep the course list and calculated summary in sync.
+        setSemesterCourses(courseData.semesterCourses);
+        setSgpaSummary(
+            courseData.sgpaSummary ?? EMPTY_SGPA_SUMMARY
+        );
+    }
 
     async function handleSearchCourses(event) {
         event.preventDefault();
@@ -129,7 +147,7 @@ export default function SemesterDetailsPage() {
         setAddingCourseId(courseId);
 
         try {
-            const data = await apiRequest(
+            await apiRequest(
                 `/api/semesters/${semesterId}/courses`,
                 {
                     method: "POST",
@@ -139,17 +157,7 @@ export default function SemesterDetailsPage() {
                 }
             );
 
-            // Display the returned course without reloading.
-            setSemesterCourses((currentCourses) =>
-                [
-                    ...currentCourses,
-                    data.semesterCourse,
-                ].sort((firstCourse, secondCourse) =>
-                    firstCourse.courseCode.localeCompare(
-                        secondCourse.courseCode
-                    )
-                )
-            );
+            await refreshSemesterCourses();
         } catch (requestError) {
             setAddCourseError(requestError.message);
         } finally {
@@ -168,7 +176,7 @@ export default function SemesterDetailsPage() {
         setUpdatingGradeCourseId(semesterCourseId);
 
         try {
-            const data = await apiRequest(
+            await apiRequest(
                 `/api/semester-courses/${semesterCourseId}`,
                 {
                     method: "PATCH",
@@ -178,17 +186,7 @@ export default function SemesterDetailsPage() {
                 }
             );
 
-            // Replace only the grade returned by the backend.
-            setSemesterCourses((currentCourses) =>
-                currentCourses.map((semesterCourse) =>
-                    semesterCourse.id === semesterCourseId
-                        ? {
-                            ...semesterCourse,
-                            grade: data.semesterCourse.grade,
-                        }
-                        : semesterCourse
-                )
-            );
+            await refreshSemesterCourses();
         } catch (requestError) {
             setGradeErrorCourseId(semesterCourseId);
             setGradeError(requestError.message);
@@ -221,13 +219,7 @@ export default function SemesterDetailsPage() {
                 }
             );
 
-            // Remove only the selected course returned by this card.
-            setSemesterCourses((currentCourses) =>
-                currentCourses.filter(
-                    (semesterCourse) =>
-                        semesterCourse.id !== semesterCourseId
-                )
-            );
+            await refreshSemesterCourses();
 
             setPendingRemoveCourseId(null);
         } catch (requestError) {
@@ -290,6 +282,36 @@ export default function SemesterDetailsPage() {
                         {semester.name}
                     </h1>
                 </header>
+
+                <section
+                    className={styles.summaryPanel}
+                    aria-labelledby="sgpa-heading"
+                >
+                    <div>
+                        <p
+                            className={styles.summaryLabel}
+                            id="sgpa-heading"
+                        >
+                            Current SGPA
+                        </p>
+
+                        <p className={styles.summaryValue}>
+                            {sgpaSummary.sgpa === null
+                                ? "--"
+                                : Number(sgpaSummary.sgpa).toFixed(2)}
+                        </p>
+                    </div>
+
+                    <div className={styles.summaryDetails}>
+                        <p>
+                            {sgpaSummary.gradedCourseCount} of{" "}
+                            {sgpaSummary.totalCourseCount} courses graded
+                        </p>
+                        <p>
+                            {sgpaSummary.gradedCredits} graded credits
+                        </p>
+                    </div>
+                </section>
 
                 <section className={styles.searchPanel}>
                     <div className={styles.panelHeader}>
@@ -392,8 +414,8 @@ export default function SemesterDetailsPage() {
                                             {isAdded
                                                 ? "Added"
                                                 : addingCourseId === course.id
-                                                  ? "Adding..."
-                                                  : "+ Add"}
+                                                    ? "Adding..."
+                                                    : "+ Add"}
                                         </button>
                                     </article>
                                 );
@@ -504,96 +526,96 @@ export default function SemesterDetailsPage() {
 
                                         {updatingGradeCourseId ===
                                             semesterCourse.id && (
-                                            <span
-                                                className={styles.gradeStatus}
-                                            >
-                                                Saving...
-                                            </span>
-                                        )}
+                                                <span
+                                                    className={styles.gradeStatus}
+                                                >
+                                                    Saving...
+                                                </span>
+                                            )}
                                     </div>
 
                                     {gradeErrorCourseId ===
                                         semesterCourse.id && (
-                                        <p
-                                            className={styles.gradeError}
-                                            role="alert"
-                                        >
-                                            Error: {gradeError}
-                                        </p>
-                                    )}
+                                            <p
+                                                className={styles.gradeError}
+                                                role="alert"
+                                            >
+                                                Error: {gradeError}
+                                            </p>
+                                        )}
 
                                     {pendingRemoveCourseId ===
                                         semesterCourse.id && (
-                                        <div
-                                            className={
-                                                styles.removeConfirmation
-                                            }
-                                        >
-                                            <p
-                                                className={
-                                                    styles.removeQuestion
-                                                }
-                                            >
-                                                Remove &quot;
-                                                {semesterCourse.courseCode}
-                                                &quot; from this semester?
-                                            </p>
-
-                                            <p
-                                                className={
-                                                    styles.removeWarning
-                                                }
-                                            >
-                                                Its selected grade will also be
-                                                removed.
-                                            </p>
-
                                             <div
                                                 className={
-                                                    styles.removeActions
+                                                    styles.removeConfirmation
                                                 }
                                             >
-                                                <button
-                                                    className={
-                                                        styles.confirmRemoveButton
-                                                    }
-                                                    type="button"
-                                                    onClick={() =>
-                                                        handleRemoveCourse(
-                                                            semesterCourse.id
-                                                        )
-                                                    }
-                                                    disabled={isRemovingCourse}
-                                                >
-                                                    {isRemovingCourse
-                                                        ? "Removing..."
-                                                        : "Confirm remove"}
-                                                </button>
-
-                                                <button
-                                                    className={
-                                                        styles.cancelRemoveButton
-                                                    }
-                                                    type="button"
-                                                    onClick={cancelRemovingCourse}
-                                                    disabled={isRemovingCourse}
-                                                >
-                                                    Cancel
-                                                </button>
-                                            </div>
-
-                                            {removeCourseError && (
                                                 <p
                                                     className={
-                                                        styles.removeError
+                                                        styles.removeQuestion
                                                     }
-                                                    role="alert"
                                                 >
-                                                    Error: {removeCourseError}
+                                                    Remove &quot;
+                                                    {semesterCourse.courseCode}
+                                                    &quot; from this semester?
                                                 </p>
-                                            )}
-                                        </div>
-                                    )}
+
+                                                <p
+                                                    className={
+                                                        styles.removeWarning
+                                                    }
+                                                >
+                                                    Its selected grade will also be
+                                                    removed.
+                                                </p>
+
+                                                <div
+                                                    className={
+                                                        styles.removeActions
+                                                    }
+                                                >
+                                                    <button
+                                                        className={
+                                                            styles.confirmRemoveButton
+                                                        }
+                                                        type="button"
+                                                        onClick={() =>
+                                                            handleRemoveCourse(
+                                                                semesterCourse.id
+                                                            )
+                                                        }
+                                                        disabled={isRemovingCourse}
+                                                    >
+                                                        {isRemovingCourse
+                                                            ? "Removing..."
+                                                            : "Confirm remove"}
+                                                    </button>
+
+                                                    <button
+                                                        className={
+                                                            styles.cancelRemoveButton
+                                                        }
+                                                        type="button"
+                                                        onClick={cancelRemovingCourse}
+                                                        disabled={isRemovingCourse}
+                                                    >
+                                                        Cancel
+                                                    </button>
+                                                </div>
+
+                                                {removeCourseError && (
+                                                    <p
+                                                        className={
+                                                            styles.removeError
+                                                        }
+                                                        role="alert"
+                                                    >
+                                                        Error: {removeCourseError}
+                                                    </p>
+                                                )}
+                                            </div>
+                                        )}
                                 </article>
                             ))}
                         </div>

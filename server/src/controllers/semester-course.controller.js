@@ -5,6 +5,7 @@ import {
     updateSemesterCourseGradeSchema,
 } from "../validation/semester-course.schemas.js";
 import { semesterIdSchema } from "../validation/semester.schemas.js";
+import { calculateSgpa } from "../utils/gpa.js";
 
 export async function getSemesterCourses(
     request,
@@ -56,8 +57,12 @@ export async function getSemesterCourses(
             [semesterId]
         );
 
+        // Calculate the summary from the selected courses.
+        const sgpaSummary = calculateSgpa(courseResult.rows);
+
         return response.status(200).json({
             semesterCourses: courseResult.rows,
+            sgpaSummary,
         });
     } catch (error) {
         console.error(
