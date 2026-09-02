@@ -2,6 +2,7 @@ import pool from "../config/db.js";
 import {
     addSemesterCourseSchema,
     semesterCourseIdSchema,
+    updateSemesterCourseGradeSchema,
 } from "../validation/semester-course.schemas.js";
 import { semesterIdSchema } from "../validation/semester.schemas.js";
 
@@ -167,6 +168,80 @@ export async function addCourseToSemester(
 
         return response.status(500).json({
             error: "Could not add course to semester",
+        });
+    }
+}
+
+export async function updateSemesterCourseGrade(
+    request,
+    response
+) {
+    const idValidation = semesterCourseIdSchema.safeParse(
+        request.params.semesterCourseId
+    );
+
+    if (!idValidation.success) {
+        return response.status(400).json({
+            error: idValidation.error.issues[0].message,
+        });
+    }
+
+    const bodyValidation =
+        updateSemesterCourseGradeSchema.safeParse(
+            request.body
+        );
+
+    if (!bodyValidation.success) {
+        return response.status(400).json({
+            error:
+                bodyValidation.error.issues[0].message,
+        });
+    }
+
+    const semesterCourseId = idValidation.data;
+    const { grade } = bodyValidation.data;
+
+    try {
+        // Update only through a semester owned by this user.
+        const updateResult = await pool.query(
+            `UPDATE semester_courses AS sc
+             SET
+                grade = $1,
+                updated_at = NOW()
+             FROM semesters AS s
+             WHERE sc.id = $2
+               AND sc.semester_id = s.id
+               AND s.user_id = $3
+             RETURNING
+                sc.id,
+                sc.grade,
+                sc.updated_at AS "updatedAt"`,
+            [grade, semesterCourseId, request.userId]
+        );
+
+        if (updateResult.rowCount === 0) {
+            return response.status(404).json({
+                error: "Semester course not found",
+            });
+        }
+
+        return response.status(200).json({
+            semesterCourse: updateResult.rows[0],
+        });
+    } catch (error) {
+        if (error.code === "23514") {
+            return response.status(400).json({
+                error: "Invalid grade",
+            });
+        }
+
+        console.error(
+            "Update semester course grade failed:",
+            error.message
+        );
+
+        return response.status(500).json({
+            error: "Could not update grade",
         });
     }
 }

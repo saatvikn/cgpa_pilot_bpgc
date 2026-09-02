@@ -10,6 +10,17 @@ import {
 import { apiRequest } from "@/lib/api";
 import styles from "./semester.module.css";
 
+const GRADE_OPTIONS = [
+    "A",
+    "A-",
+    "B",
+    "B-",
+    "C",
+    "C-",
+    "D",
+    "E",
+];
+
 export default function SemesterDetailsPage() {
     const router = useRouter();
     const { semesterId } = useParams();
@@ -33,6 +44,12 @@ export default function SemesterDetailsPage() {
         useState("");
     const [isRemovingCourse, setIsRemovingCourse] =
         useState(false);
+
+    const [updatingGradeCourseId, setUpdatingGradeCourseId] =
+        useState(null);
+    const [gradeErrorCourseId, setGradeErrorCourseId] =
+        useState(null);
+    const [gradeError, setGradeError] = useState("");
 
     useEffect(() => {
         let isActive = true;
@@ -140,9 +157,51 @@ export default function SemesterDetailsPage() {
         }
     }
 
+    async function handleGradeChange(
+        semesterCourseId,
+        selectedGrade
+    ) {
+        const grade = selectedGrade || null;
+
+        setGradeError("");
+        setGradeErrorCourseId(null);
+        setUpdatingGradeCourseId(semesterCourseId);
+
+        try {
+            const data = await apiRequest(
+                `/api/semester-courses/${semesterCourseId}`,
+                {
+                    method: "PATCH",
+                    body: JSON.stringify({
+                        grade,
+                    }),
+                }
+            );
+
+            // Replace only the grade returned by the backend.
+            setSemesterCourses((currentCourses) =>
+                currentCourses.map((semesterCourse) =>
+                    semesterCourse.id === semesterCourseId
+                        ? {
+                            ...semesterCourse,
+                            grade: data.semesterCourse.grade,
+                        }
+                        : semesterCourse
+                )
+            );
+        } catch (requestError) {
+            setGradeErrorCourseId(semesterCourseId);
+            setGradeError(requestError.message);
+        } finally {
+            setUpdatingGradeCourseId(null);
+        }
+    }
+
     function startRemovingCourse(semesterCourseId) {
         setPendingRemoveCourseId(semesterCourseId);
         setRemoveCourseError("");
+        setGradeErrorCourseId(null);
+        setGradeError("");
     }
 
     function cancelRemovingCourse() {
@@ -326,7 +385,8 @@ export default function SemesterDetailsPage() {
                                             disabled={
                                                 isAdded ||
                                                 addingCourseId !== null ||
-                                                pendingRemoveCourseId !== null
+                                                pendingRemoveCourseId !== null ||
+                                                updatingGradeCourseId !== null
                                             }
                                         >
                                             {isAdded
@@ -391,7 +451,8 @@ export default function SemesterDetailsPage() {
                                                     )
                                                 }
                                                 disabled={
-                                                    pendingRemoveCourseId !== null
+                                                    pendingRemoveCourseId !== null ||
+                                                    updatingGradeCourseId !== null
                                                 }
                                                 aria-label={`Remove ${semesterCourse.courseName}`}
                                             >
@@ -404,11 +465,62 @@ export default function SemesterDetailsPage() {
                                         {semesterCourse.department}
                                     </p>
 
-                                    <p className={styles.courseGrade}>
-                                        Grade:{" "}
-                                        {semesterCourse.grade ??
-                                            "Not selected"}
-                                    </p>
+                                    <div className={styles.gradeField}>
+                                        <label
+                                            className={styles.gradeLabel}
+                                            htmlFor={`grade-${semesterCourse.id}`}
+                                        >
+                                            Grade
+                                        </label>
+
+                                        <select
+                                            className={styles.gradeSelect}
+                                            id={`grade-${semesterCourse.id}`}
+                                            value={semesterCourse.grade ?? ""}
+                                            onChange={(event) =>
+                                                handleGradeChange(
+                                                    semesterCourse.id,
+                                                    event.target.value
+                                                )
+                                            }
+                                            disabled={
+                                                updatingGradeCourseId !== null ||
+                                                pendingRemoveCourseId !== null
+                                            }
+                                        >
+                                            <option value="">
+                                                Not selected
+                                            </option>
+
+                                            {GRADE_OPTIONS.map((grade) => (
+                                                <option
+                                                    key={grade}
+                                                    value={grade}
+                                                >
+                                                    {grade}
+                                                </option>
+                                            ))}
+                                        </select>
+
+                                        {updatingGradeCourseId ===
+                                            semesterCourse.id && (
+                                            <span
+                                                className={styles.gradeStatus}
+                                            >
+                                                Saving...
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    {gradeErrorCourseId ===
+                                        semesterCourse.id && (
+                                        <p
+                                            className={styles.gradeError}
+                                            role="alert"
+                                        >
+                                            Error: {gradeError}
+                                        </p>
+                                    )}
 
                                     {pendingRemoveCourseId ===
                                         semesterCourse.id && (
