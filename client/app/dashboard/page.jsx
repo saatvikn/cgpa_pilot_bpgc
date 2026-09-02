@@ -9,6 +9,7 @@ import styles from "./dashboard.module.css";
 export default function DashboardPage() {
     const router = useRouter();
     const [user, setUser] = useState(null);
+    const [semesters, setSemesters] = useState([]);
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(true);
 
@@ -18,12 +19,17 @@ export default function DashboardPage() {
     useEffect(() => {
         let isActive = true;
 
-        async function loadCurrentUser() {
+        async function loadDashboard() {
             try {
-                const data = await apiRequest("/api/auth/me");
+                const [userData, semesterData] =
+                    await Promise.all([
+                        apiRequest("/api/auth/me"),
+                        apiRequest("/api/semesters"),
+                    ]);
 
                 if (isActive) {
-                    setUser(data.user);
+                    setUser(userData.user);
+                    setSemesters(semesterData.semesters);
                 }
             } catch (requestError) {
                 if (!isActive) {
@@ -43,7 +49,7 @@ export default function DashboardPage() {
             }
         }
 
-        loadCurrentUser();
+        loadDashboard();
 
         return () => {
             isActive = false;
@@ -132,11 +138,44 @@ export default function DashboardPage() {
                 )}
 
                 <section className={styles.panel}>
-                    <h2>Your academic record</h2>
-                    <p>
-                        Semester management will be added
-                        next.
-                    </p>
+                    <div className={styles.panelHeader}>
+                        <div>
+                            <h2>Your semesters</h2>
+                            <p>
+                                Semesters are shown in academic order.
+                            </p>
+                        </div>
+                    </div>
+
+                    {semesters.length === 0 ? (
+                        <div className={styles.emptyState}>
+                            <h3>No semesters yet</h3>
+                            <p>
+                                Add your first semester to begin
+                                tracking courses and grades.
+                            </p>
+                        </div>
+                    ) : (
+                        <div className={styles.semesterList}>
+                            {semesters.map((semester) => (
+                                <article
+                                    className={styles.semesterCard}
+                                    key={semester.id}
+                                >
+                                    <p className={styles.semesterOrder}>
+                                        Semester {semester.semesterOrder}
+                                    </p>
+
+                                    <h3>{semester.name}</h3>
+
+                                    <p className={styles.semesterMeta}>
+                                        Course and SGPA information will
+                                        appear here later.
+                                    </p>
+                                </article>
+                            ))}
+                        </div>
+                    )}
                 </section>
             </div>
         </main>
