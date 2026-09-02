@@ -6,6 +6,11 @@ import { apiRequest } from "@/lib/api";
 
 import styles from "./dashboard.module.css";
 
+const INITIAL_SEMESTER_FORM = {
+    name: "",
+    semesterOrder: "",
+};
+
 export default function DashboardPage() {
     const router = useRouter();
     const [user, setUser] = useState(null);
@@ -15,6 +20,10 @@ export default function DashboardPage() {
 
     const [logoutError, setLogoutError] = useState("");
     const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+    const [semesterForm, setSemesterForm] = useState(INITIAL_SEMESTER_FORM);
+    const [semesterError, setSemesterError] = useState("");
+    const [isCreatingSemester, setIsCreatingSemester] = useState(false);
 
     useEffect(() => {
         let isActive = true;
@@ -55,6 +64,48 @@ export default function DashboardPage() {
             isActive = false;
         };
     }, [router]);
+
+    function handleSemesterChange(event) {
+        const { name, value } = event.target;
+
+        setSemesterForm((currentForm) => ({
+            ...currentForm,
+            [name]: value,
+        }));
+    }
+
+    async function handleCreateSemester(event) {
+        event.preventDefault();
+        setSemesterError("");
+        setIsCreatingSemester(true);
+
+        try {
+            const data = await apiRequest("/api/semesters", {
+                method: "POST",
+                body: JSON.stringify({
+                    name: semesterForm.name,
+                    semesterOrder: Number(
+                        semesterForm.semesterOrder
+                    ),
+                }),
+            });
+
+            // Add the returned semester without reloading the page.
+            setSemesters((currentSemesters) =>
+                [...currentSemesters, data.semester].sort(
+                    (firstSemester, secondSemester) =>
+                        firstSemester.semesterOrder -
+                        secondSemester.semesterOrder
+                )
+            );
+
+            setSemesterForm(INITIAL_SEMESTER_FORM);
+        } catch (requestError) {
+            setSemesterError(requestError.message);
+        } finally {
+            setIsCreatingSemester(false);
+        }
+    }
 
     async function handleLogout() {
         setLogoutError("");
@@ -146,6 +197,71 @@ export default function DashboardPage() {
                             </p>
                         </div>
                     </div>
+
+                    <form
+                        className={styles.semesterForm}
+                        onSubmit={handleCreateSemester}
+                    >
+                        <div className={styles.formField}>
+                            <label
+                                className={styles.formLabel}
+                                htmlFor="semesterName"
+                            >
+                                Semester name
+                            </label>
+
+                            <input
+                                className={styles.formInput}
+                                id="semesterName"
+                                name="name"
+                                type="text"
+                                maxLength={100}
+                                value={semesterForm.name}
+                                onChange={handleSemesterChange}
+                                required
+                            />
+                        </div>
+
+                        <div className={styles.formField}>
+                            <label
+                                className={styles.formLabel}
+                                htmlFor="semesterOrder"
+                            >
+                                Order
+                            </label>
+
+                            <input
+                                className={styles.formInput}
+                                id="semesterOrder"
+                                name="semesterOrder"
+                                type="number"
+                                min={1}
+                                step={1}
+                                value={semesterForm.semesterOrder}
+                                onChange={handleSemesterChange}
+                                required
+                            />
+                        </div>
+
+                        <button
+                            className={styles.createButton}
+                            type="submit"
+                            disabled={isCreatingSemester}
+                        >
+                            {isCreatingSemester
+                                ? "Adding..."
+                                : "+ Add semester"}
+                        </button>
+                    </form>
+
+                    {semesterError && (
+                        <p
+                            className={styles.semesterError}
+                            role="alert"
+                        >
+                            Error: {semesterError}
+                        </p>
+                    )}
 
                     {semesters.length === 0 ? (
                         <div className={styles.emptyState}>
