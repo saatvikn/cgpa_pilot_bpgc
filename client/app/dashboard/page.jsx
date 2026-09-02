@@ -25,6 +25,11 @@ export default function DashboardPage() {
     const [semesterError, setSemesterError] = useState("");
     const [isCreatingSemester, setIsCreatingSemester] = useState(false);
 
+    const [editingSemesterId, setEditingSemesterId] = useState(null);
+    const [editedSemesterName, setEditedSemesterName] = useState("");
+    const [editSemesterError, setEditSemesterError] = useState("");
+    const [isUpdatingSemester, setIsUpdatingSemester] = useState(false);
+
     useEffect(() => {
         let isActive = true;
 
@@ -104,6 +109,51 @@ export default function DashboardPage() {
             setSemesterError(requestError.message);
         } finally {
             setIsCreatingSemester(false);
+        }
+    }
+
+    function startEditingSemester(semester) {
+        setEditingSemesterId(semester.id);
+        setEditedSemesterName(semester.name);
+        setEditSemesterError("");
+    }
+
+    function cancelEditingSemester() {
+        setEditingSemesterId(null);
+        setEditedSemesterName("");
+        setEditSemesterError("");
+    }
+
+    async function handleRenameSemester(event, semesterId) {
+        event.preventDefault();
+        setEditSemesterError("");
+        setIsUpdatingSemester(true);
+
+        try {
+            const data = await apiRequest(
+                `/api/semesters/${semesterId}`,
+                {
+                    method: "PATCH",
+                    body: JSON.stringify({
+                        name: editedSemesterName,
+                    }),
+                }
+            );
+
+            // Replace only the semester returned by the backend.
+            setSemesters((currentSemesters) =>
+                currentSemesters.map((semester) =>
+                    semester.id === semesterId
+                        ? data.semester
+                        : semester
+                )
+            );
+
+            cancelEditingSemester();
+        } catch (requestError) {
+            setEditSemesterError(requestError.message);
+        } finally {
+            setIsUpdatingSemester(false);
         }
     }
 
@@ -282,12 +332,91 @@ export default function DashboardPage() {
                                         Semester {semester.semesterOrder}
                                     </p>
 
-                                    <h3>{semester.name}</h3>
+                                    {editingSemesterId === semester.id ? (
+                                        <form
+                                            className={styles.editForm}
+                                            onSubmit={(event) =>
+                                                handleRenameSemester(
+                                                    event,
+                                                    semester.id
+                                                )
+                                            }
+                                        >
+                                            <label
+                                                className={styles.formLabel}
+                                                htmlFor={`semester-name-${semester.id}`}
+                                            >
+                                                New name
+                                            </label>
 
-                                    <p className={styles.semesterMeta}>
-                                        Course and SGPA information will
-                                        appear here later.
-                                    </p>
+                                            <input
+                                                className={styles.formInput}
+                                                id={`semester-name-${semester.id}`}
+                                                type="text"
+                                                maxLength={100}
+                                                value={editedSemesterName}
+                                                onChange={(event) =>
+                                                    setEditedSemesterName(
+                                                        event.target.value
+                                                    )
+                                                }
+                                                autoFocus
+                                                required
+                                            />
+
+                                            <div className={styles.editActions}>
+                                                <button
+                                                    className={styles.saveButton}
+                                                    type="submit"
+                                                    disabled={isUpdatingSemester}
+                                                >
+                                                    {isUpdatingSemester
+                                                        ? "Saving..."
+                                                        : "Save"}
+                                                </button>
+
+                                                <button
+                                                    className={styles.cancelButton}
+                                                    type="button"
+                                                    onClick={cancelEditingSemester}
+                                                    disabled={isUpdatingSemester}
+                                                >
+                                                    Cancel
+                                                </button>
+                                            </div>
+
+                                            {editSemesterError && (
+                                                <p
+                                                    className={styles.editError}
+                                                    role="alert"
+                                                >
+                                                    Error: {editSemesterError}
+                                                </p>
+                                            )}
+                                        </form>
+                                    ) : (
+                                        <>
+                                            <div className={styles.cardTitleRow}>
+                                                <h3>{semester.name}</h3>
+
+                                                <button
+                                                    className={styles.editButton}
+                                                    type="button"
+                                                    onClick={() =>
+                                                        startEditingSemester(semester)
+                                                    }
+                                                    aria-label={`Rename ${semester.name}`}
+                                                >
+                                                    Edit
+                                                </button>
+                                            </div>
+
+                                            <p className={styles.semesterMeta}>
+                                                Course and SGPA information will
+                                                appear here later.
+                                            </p>
+                                        </>
+                                    )}
                                 </article>
                             ))}
                         </div>

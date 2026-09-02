@@ -273,6 +273,70 @@
     font-size: 0.75rem;
 }
 
+.cardTitleRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.editButton,
+.saveButton,
+.cancelButton {
+    padding: 6px 9px;
+    color: var(--color-text);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    cursor: pointer;
+}
+
+.editButton:hover {
+    color: var(--color-accent-secondary);
+    border-color: var(--color-accent-secondary);
+}
+
+.editForm {
+    display: grid;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.editActions {
+    display: flex;
+    gap: 8px;
+}
+
+.saveButton {
+    border-color: var(--color-accent);
+}
+
+.saveButton:hover:not(:disabled) {
+    color: var(--color-background);
+    background: var(--color-accent);
+}
+
+.cancelButton:hover:not(:disabled) {
+    color: var(--color-muted);
+    border-color: var(--color-muted);
+}
+
+.saveButton:disabled,
+.cancelButton:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.editError {
+    padding: 8px 10px;
+    color: var(--color-error);
+    background: var(--color-error-background);
+    border: 1px solid var(--color-error);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+}
+
 @media (max-width: 600px) {
     .semesterForm {
         grid-template-columns: 1fr;
