@@ -12,10 +12,22 @@ const INITIAL_SEMESTER_FORM = {
     semesterOrder: "",
 };
 
+const EMPTY_CGPA_SUMMARY = {
+    cgpa: null,
+    gradedCredits: 0,
+    gradedCourseCount: 0,
+    totalCourseCount: 0,
+};
+
+function formatGpa(value) {
+    return value === null ? "--" : Number(value).toFixed(2);
+}
+
 export default function DashboardPage() {
     const router = useRouter();
     const [user, setUser] = useState(null);
     const [semesters, setSemesters] = useState([]);
+    const [cgpaSummary, setCgpaSummary] = useState(EMPTY_CGPA_SUMMARY);
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(true);
 
@@ -55,6 +67,9 @@ export default function DashboardPage() {
                 if (isActive) {
                     setUser(userData.user);
                     setSemesters(semesterData.semesters);
+                    setCgpaSummary(
+                        semesterData.cgpaSummary ?? EMPTY_CGPA_SUMMARY
+                    );
                 }
             } catch (requestError) {
                 if (!isActive) {
@@ -81,6 +96,14 @@ export default function DashboardPage() {
         };
     }, [router]);
 
+    async function refreshSemesters() {
+        const data = await apiRequest("/api/semesters");
+
+        // Keep semester cards and the overall CGPA in sync.
+        setSemesters(data.semesters);
+        setCgpaSummary(data.cgpaSummary ?? EMPTY_CGPA_SUMMARY);
+    }
+
     function handleSemesterChange(event) {
         const { name, value } = event.target;
 
@@ -96,7 +119,7 @@ export default function DashboardPage() {
         setIsCreatingSemester(true);
 
         try {
-            const data = await apiRequest("/api/semesters", {
+            await apiRequest("/api/semesters", {
                 method: "POST",
                 body: JSON.stringify({
                     name: semesterForm.name,
@@ -106,15 +129,7 @@ export default function DashboardPage() {
                 }),
             });
 
-            // Add the returned semester without reloading the page.
-            setSemesters((currentSemesters) =>
-                [...currentSemesters, data.semester].sort(
-                    (firstSemester, secondSemester) =>
-                        firstSemester.semesterOrder -
-                        secondSemester.semesterOrder
-                )
-            );
-
+            await refreshSemesters();
             setSemesterForm(INITIAL_SEMESTER_FORM);
         } catch (requestError) {
             setSemesterError(requestError.message);
@@ -141,7 +156,7 @@ export default function DashboardPage() {
         setIsUpdatingSemester(true);
 
         try {
-            const data = await apiRequest(
+            await apiRequest(
                 `/api/semesters/${semesterId}`,
                 {
                     method: "PATCH",
@@ -151,15 +166,7 @@ export default function DashboardPage() {
                 }
             );
 
-            // Replace only the semester returned by the backend.
-            setSemesters((currentSemesters) =>
-                currentSemesters.map((semester) =>
-                    semester.id === semesterId
-                        ? data.semester
-                        : semester
-                )
-            );
-
+            await refreshSemesters();
             cancelEditingSemester();
         } catch (requestError) {
             setEditSemesterError(requestError.message);
@@ -190,14 +197,7 @@ export default function DashboardPage() {
                 }
             );
 
-            // Keep every semester except the deleted one.
-            setSemesters((currentSemesters) =>
-                currentSemesters.filter(
-                    (semester) =>
-                        semester.id !== semesterId
-                )
-            );
-
+            await refreshSemesters();
             setPendingDeleteSemesterId(null);
         } catch (requestError) {
             setDeleteSemesterError(requestError.message);
@@ -286,6 +286,32 @@ export default function DashboardPage() {
                         Error: {logoutError}
                     </p>
                 )}
+
+                <section
+                    className={styles.cgpaPanel}
+                    aria-labelledby="cgpa-heading"
+                >
+                    <div>
+                        <p
+                            className={styles.cgpaLabel}
+                            id="cgpa-heading"
+                        >
+                            Overall CGPA
+                        </p>
+
+                        <p className={styles.cgpaValue}>
+                            {formatGpa(cgpaSummary.cgpa)}
+                        </p>
+                    </div>
+
+                    <div className={styles.cgpaDetails}>
+                        <p>
+                            {cgpaSummary.gradedCourseCount} of{" "}
+                            {cgpaSummary.totalCourseCount} courses graded
+                        </p>
+                        <p>{cgpaSummary.gradedCredits} graded credits</p>
+                    </div>
+                </section>
 
                 <section className={styles.panel}>
                     <div className={styles.panelHeader}>
@@ -475,10 +501,27 @@ export default function DashboardPage() {
                                                 </div>
                                             </div>
 
-                                            <p className={styles.semesterMeta}>
-                                                Course and SGPA information will
-                                                appear here later.
-                                            </p>
+                                            <div className={styles.semesterStats}>
+                                                <p className={styles.semesterSgpa}>
+                                                    <span>SGPA</span>
+                                                    <strong>
+                                                        {formatGpa(semester.sgpa)}
+                                                    </strong>
+                                                </p>
+
+                                                <p className={styles.semesterMeta}>
+                                                    {
+                                                        semester.gradedCourseCount
+                                                    } of{" "}
+                                                    {semester.totalCourseCount}{" "}
+                                                    courses graded
+                                                </p>
+
+                                                <p className={styles.semesterMeta}>
+                                                    {semester.gradedCredits}{" "}
+                                                    graded credits
+                                                </p>
+                                            </div>
 
                                             <Link
                                                 className={styles.openLink}

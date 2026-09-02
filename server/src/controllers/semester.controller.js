@@ -4,6 +4,7 @@ import {
     semesterIdSchema,
     updateSemesterSchema,
 } from "../validation/semester.schemas.js";
+import { calculateCgpa } from "../utils/gpa.js";
 
 export async function getSemesters(request, response) {
     try {
@@ -21,8 +22,64 @@ export async function getSemesters(request, response) {
             [request.userId]
         );
 
+        // Load the courses needed for SGPA and CGPA calculations.
+        const courseResult = await pool.query(
+            `SELECT
+                sc.semester_id AS "semesterId",
+                c.credits,
+                sc.grade
+             FROM semester_courses sc
+             JOIN semesters s
+               ON s.id = sc.semester_id
+             JOIN courses c
+               ON c.id = sc.course_id
+             WHERE s.user_id = $1`,
+            [request.userId]
+        );
+
+        const coursesBySemester = new Map(
+            semesterResult.rows.map((semester) => [semester.id, []])
+        );
+
+        for (const course of courseResult.rows) {
+            const semesterCourses = coursesBySemester.get(course.semesterId);
+
+            if (semesterCourses) {
+                semesterCourses.push(course);
+            }
+        }
+
+        const calculation = calculateCgpa(
+            semesterResult.rows.map((semester) => ({
+                id: semester.id,
+                name: semester.name,
+                semesterOrder: semester.semesterOrder,
+                courses: coursesBySemester.get(semester.id),
+            }))
+        );
+
+        const semesters = semesterResult.rows.map(
+            (semester, index) => {
+                const summary = calculation.semesters[index];
+
+                return {
+                    ...semester,
+                    sgpa: summary.sgpa,
+                    gradedCredits: summary.gradedCredits,
+                    gradedCourseCount: summary.gradedCourseCount,
+                    totalCourseCount: summary.totalCourseCount,
+                };
+            }
+        );
+
         return response.status(200).json({
-            semesters: semesterResult.rows,
+            semesters,
+            cgpaSummary: {
+                cgpa: calculation.cgpa,
+                gradedCredits: calculation.gradedCredits,
+                gradedCourseCount: calculation.gradedCourseCount,
+                totalCourseCount: calculation.totalCourseCount,
+            },
         });
     } catch (error) {
         console.error(

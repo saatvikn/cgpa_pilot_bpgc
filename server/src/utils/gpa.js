@@ -44,3 +44,23 @@ export function calculateSgpa(courses) {
     totalCourseCount: courses.length,
   };
 }
+
+export function calculateCgpa(semesters) {
+  const semesterSummaries = semesters.map((semester) => ({
+    id: semester.id,
+    name: semester.name,
+    semesterOrder: semester.semesterOrder,
+    ...calculateSgpa(semester.courses),
+  }));
+
+  const allCourses = semesters.flatMap((semester) => semester.courses);
+  const overallSummary = calculateSgpa(allCourses);
+
+  return {
+    cgpa: overallSummary.sgpa,
+    gradedCredits: overallSummary.gradedCredits,
+    gradedCourseCount: overallSummary.gradedCourseCount,
+    totalCourseCount: overallSummary.totalCourseCount,
+    semesters: semesterSummaries,
+  };
+}
