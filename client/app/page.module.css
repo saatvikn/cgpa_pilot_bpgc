@@ -2,48 +2,88 @@
     min-height: 100vh;
     display: grid;
     place-items: center;
-    padding: 2rem;
-    background: #f4f6f8;
+    padding: 14px;
+    color: var(--color-text);
+    background:
+        radial-gradient(circle at top right,
+            rgba(30, 68, 49, 0.18),
+            transparent 26rem),
+        var(--color-background);
 }
 
 .card {
-    width: min(100%, 36rem);
-    padding: 2rem;
-    border: 1px solid #d9dee5;
-    border-radius: 0.75rem;
-    background: white;
-    box-shadow: 0 0.5rem 1.5rem rgb(15 23 42 / 8%);
+    width: min(100%, 540px);
+    padding: 16px;
+    background: var(--color-panel-blue);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--panel-shadow);
 }
 
 .card h1 {
-    margin: 0.5rem 0 1rem;
+    margin-bottom: 12px;
+    font-size: 2rem;
+    line-height: 1;
+    letter-spacing: -0.04em;
 }
 
 .eyebrow {
-    margin: 0;
-    color: #4f46e5;
-    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
 }
 
 .button {
-    margin-top: 1rem;
-    padding: 0.75rem 1rem;
-    border: 0;
-    border-radius: 0.5rem;
-    color: white;
-    background: #4f46e5;
+    margin-top: 18px;
+    padding: 10px 13px;
+    color: var(--color-text);
+    background: var(--color-panel-pink);
+    border: 1px solid var(--color-accent);
+    font-family: var(--font-mono);
+    font-weight: 700;
     cursor: pointer;
+}
+
+.button:hover:not(:disabled) {
+    color: var(--color-background);
+    background: var(--color-accent);
 }
 
 .button:disabled {
     cursor: not-allowed;
-    opacity: 0.65;
+    opacity: 0.6;
 }
 
 .status {
-    margin-top: 1.5rem;
+    margin-top: 16px;
+    padding: 10px 12px;
+    color: var(--color-muted);
+    background: var(--color-panel-raised);
+    border: 1px solid var(--color-border);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+}
+
+.status strong {
+    color: var(--color-accent-secondary);
 }
 
 .error {
-    color: #b42318;
+    margin-top: 8px;
+    padding: 10px 12px;
+    color: var(--color-error);
+    background: var(--color-error-background);
+    border: 1px solid var(--color-error);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+}
+
+@media (max-width: 480px) {
+    .card {
+        padding: 14px;
+    }
+
+    .card h1 {
+        font-size: 1.75rem;
+    }
 }
