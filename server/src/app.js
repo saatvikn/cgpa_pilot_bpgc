@@ -13,6 +13,11 @@ import semesterRouter from "./routes/semester.routes.js";
 
 const app = express();
 
+if (process.env.NODE_ENV === "production") {
+    // Trust Render's proxy.
+    app.set("trust proxy", 1);
+}
+
 // Security headers.
 app.use(helmet());
 

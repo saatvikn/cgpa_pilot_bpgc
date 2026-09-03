@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Express API for CGPA Pilot BPGC",
   "main": "src/server.js",
   "scripts": {
     "test": "node --test",
@@ -11,9 +11,14 @@
     "migrate": "node scripts/runMigration.js",
     "seed-courses": "node scripts/seedCourses.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "cgpa",
+    "bits-goa",
+    "express",
+    "postgresql"
+  ],
+  "author": "saatvikn",
+  "license": "MIT",
   "type": "module",
   "dependencies": {
     "bcryptjs": "^3.0.3",
