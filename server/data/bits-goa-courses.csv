@@ -1,5 +1,7 @@
 course_code,course_name,credits,department
 BIO F101,Introduction to Biological Sciences,3,Biological Sciences
+BIO F110,Biological Laboratory,1,Biological Sciences
+BIO F111,General Biology,3,Biological Sciences
 BIO F211,Biological Chemistry,3,Biological Sciences
 BIO F212,Microbiology,4,Biological Sciences
 BIO F213,Cell Biology,3,Biological Sciences
@@ -43,7 +45,7 @@ BIO G642,Experimental Techniques,4,Biological Sciences
 BIO G643,Plant Biotechnology,5,Biological Sciences
 BIO G651,Protein and Enzyme Bioengineering,5,Biological Sciences
 BIO G671,Bioconversion Technology,5,Biological Sciences
-BIO U101,Introduction to Biological Sciences,9,Biological Sciences
+BIO U101,Introduction to Biological Sciences,3,Biological Sciences
 BIOT F345,Proteomics,3,Biological Sciences
 BIOT F347,Immunotechnology,3,Biological Sciences
 BIOT F422,Nanobiotechnology,3,Biological Sciences
@@ -51,7 +53,7 @@ BIOT F424,Food Biotechnology,3,Biological Sciences
 BITS C790T,Independent Study,2,General
 BITS C791T,Teaching Practice I,1,General
 BITS C797T,Ph D Seminar,2,General
-BITS C799T,PhD Thesis,10,General
+BITS C799T,PhD Thesis,40,General
 BITS E573,Study in Advanced Topics I,5,General
 BITS E574,Study in Advanced Topics II,5,General
 BITS E583,Case Studies I,5,General
@@ -61,7 +63,9 @@ BITS E793T,Practice Lect Series I,1,General
 BITS E794T,Practice Lect Series II,1,General
 BITS F102,Innovation and Design Thinking,1,General
 BITS F103,Engineering Design & Prototyping,4,General
+BITS F110,Engineering Graphics,2,General
 BITS F111,Thermodynamics,3,General
+BITS F112,Technical Report Writing,2,General
 BITS F113,General Mathematics I,3,General
 BITS F114,General Mathematics II,3,General
 BITS F218,General Mathematics III,3,General
@@ -78,7 +82,7 @@ BITS F315,Introduction to Cognitive Neuroscience,3,General
 BITS F316,Nonlinear Dynamics and Chaos,3,General
 BITS F317,Theoretical Neuroscience,3,General
 BITS F327,Artificial Intelligence for Robotics,3,General
-BITS F364,Human – Computer Interaction,3,General
+BITS F364,Human & Computer Interaction,3,General
 BITS F382,Reading Course,3,General
 BITS F385,Introduction to Gender Studies,3,General
 BITS F386,Quantum Information and Computation,3,General
@@ -92,6 +96,8 @@ BITS F421T,Thesis,16,General
 BITS F422T,Thesis,16,General
 BITS F423T,Thesis,9,General
 BITS F424T,Thesis,9,General
+BITS F425T,Thesis,20,General
+BITS F426T,Thesis,20,General
 BITS F437,Technical Communication,3,General
 BITS F441,Robotics,3,General
 BITS F445,Neural Networks and Applications,3,General
@@ -113,13 +119,13 @@ BITS G562T,Dissertation,16,General
 BITS G563T,Dissertation,16,General
 BITS G565,Dissertation,5,General
 BITS G619,Professional Practice,4,General
-BITS G620,Professional Practice I,3,General
+BITS G620,Professional Practice I,2,General
 BITS G621,Professional Practice II,3,General
 BITS G629T,Dissertation,16,General
 BITS G649,Reading Course,5,General
 BITS G654,Advanced Instrumentation Tech,5,General
 BITS G661,Research Methodology I,5,General
-BITS U104,Foundations of Measurement and Experimentation,6,General
+BITS U104,Foundations of Measurement and Experimentation,3,General
 CHE F211,Chemical Process Calculations,3,Chemical Engineering
 CHE F212,Fluid Mechanics,3,Chemical Engineering
 CHE F213,Chemical Engineering Thermodynamics,3,Chemical Engineering
@@ -194,9 +200,9 @@ CHEM F377,Design Project,3,Chemistry
 CHEM F414,Bio and Chemical Sensors,3,Chemistry
 CHEM F431,Sustainable Chemistry using Renewables,3,Chemistry
 CHEM F491,Special Project,3,Chemistry
-CHEM U101,"Atomic Structures, Bonding and Spectroscopy",7,Chemistry
-CHEM U102,Structure and Reactivity of Molecules,7,Chemistry
-CHEM U110,Chemistry Laboratory,3,Chemistry
+CHEM U101,"Atomic Structures, Bonding and Spectroscopy",3,Chemistry
+CHEM U102,Structure and Reactivity of Molecules,3,Chemistry
+CHEM U110,Chemistry Laboratory,1,Chemistry
 CS F111,Computer Programming,4,Computer Science
 CS F211,Data Structures & Algorithms,4,Computer Science
 CS F212,Database Systems,4,Computer Science
@@ -245,7 +251,7 @@ CS G526,Advanced Algorithms and Complexity,5,Computer Science
 CS G541,Pervasive Computing,4,Computer Science
 CS G553,Reconfigurable Computing,5,Computer Science
 CS G623,Advanced Operating Systems,5,Computer Science
-CS U111,Computational Thinking and Programming,12,Computer Science
+CS U111,Computational Thinking and Programming,4,Computer Science
 DE G514,Fracture Mechanics,5,Mechanical Engineering
 DE G531,Product Design,5,Mechanical Engineering
 DE G611,Dynamics & Vibration,5,Mechanical Engineering
@@ -306,8 +312,8 @@ ECON F415,New Venture Creation,3,Economics and Finance
 ECON F420,Applied Macroeconometrics,3,Economics and Finance
 ECON F435,Marketing Research,3,Economics and Finance
 ECON F491,Special Project,3,Economics and Finance
-EE G503,Environmental Systems Modelling3,5,Electrical and Electronics Engineering
-EE G605,Environmental Process Engineerin3g,5,Electrical and Electronics Engineering
+EE G503,Environmental Systems Modelling,5,Electrical and Electronics Engineering
+EE G605,Environmental Process Engineering,5,Electrical and Electronics Engineering
 EEE F111,Electrical Sciences,3,Electrical and Electronics Engineering
 EEE F211,Electrical Machines,4,Electrical and Electronics Engineering
 EEE F212,Electromagnetic Theory,3,Electrical and Electronics Engineering
@@ -353,7 +359,7 @@ EEE G595,Nanoelectronics and Nanophotonics Technology,5,Electrical and Electroni
 EEE G622,Adv Digital Communication,5,Electrical and Electronics Engineering
 EEE G626,Hardware Software Co-Design,4,Electrical and Electronics Engineering
 EEE G629,Advanced Design Project,4,Electrical and Electronics Engineering
-EEE U111,Electrical Sciences,10,Electrical and Electronics Engineering
+EEE U111,Electrical Sciences,3,Electrical and Electronics Engineering
 ENVS F211,Hydraulics and Fluid Mechanics,3,Environmental Studies
 ENVS F212,Environmental Chemistry and Environmental Biotechnology,3,Environmental Studies
 FIN F311,Derivatives & Risk Management,3,Economics and Finance
@@ -369,6 +375,7 @@ GS F234,Development Economics,3,Humanities and Social Sciences
 GS F241,Creative Writing,3,Humanities and Social Sciences
 GS F242,Cultural Studies,3,Humanities and Social Sciences
 GS F245,Effective Public Speaking,3,Humanities and Social Sciences
+GS F311,Introduction to Conflict Management,3,Humanities and Social Sciences
 GS F322,Critical Analysis of Literature and Cinema,3,Humanities and Social Sciences
 GS F326,Creative Thinking,3,Humanities and Social Sciences
 HSS F101,Understanding Self & Society,2,Humanities and Social Sciences
@@ -439,6 +446,8 @@ MAC F313,Statistical Data Analysis,4,Mathematics
 MAC F314,Mathematical Modelling,4,Mathematics
 MAC F411,Computation of Option Pricing Models,4,Mathematics
 MATH F102,Linear Algebra and Complex Variables,3,Mathematics
+MATH F111,Mathematics I,3,Mathematics
+MATH F112,Mathematics II,3,Mathematics
 MATH F113,Probability and Statistics,3,Mathematics
 MATH F211,Mathematics III,3,Mathematics
 MATH F212,Optimization,3,Mathematics
@@ -472,8 +481,8 @@ MATH F491,Special Project,3,Mathematics
 MATH G513,Topics in Algebra,5,Mathematics
 MATH G515,Topics in Differential Equations,5,Mathematics
 MATH G516,Topics in Topology,5,Mathematics
-MATH U101,Multivariable Calculus,10,Mathematics
-MATH U113,Probability and Statistics,12,Mathematics
+MATH U101,Multivariable Calculus,3,Mathematics
+MATH U113,Probability and Statistics,3,Mathematics
 ME F112,Workshop Practice,2,Mechanical Engineering
 ME F211,Mechanics of Solids,3,Mechanical Engineering
 ME F212,Fluid Mechanics,3,Mechanical Engineering
@@ -523,7 +532,7 @@ ME G611,Computer Aided Analysis and Design,5,Mechanical Engineering
 ME G615,Computer Aided Design & Additive Manufacturing,4,Mechanical Engineering
 ME G631,Advanced Heat Transfer,5,Mechanical Engineering
 ME G641,Theory of Elasticity and Plasticity,5,Mechanical Engineering
-ME U103,Engineering Design and Prototyping,12,Mechanical Engineering
+ME U103,Engineering Design and Prototyping,3,Mechanical Engineering
 MEL G533,Soc Test and Power Aware Testing,5,Mechanical Engineering
 MEL G623,Advanced VLSI Design,5,Mechanical Engineering
 MEL G625,Advanced Analog and Mixed Signal Design,5,Mechanical Engineering
@@ -540,6 +549,8 @@ MGTS U102,Innovation and Design Thinking,3,Management
 MSE G601,Supply Chain Management,4,Mechanical Engineering
 MST G522,Advanced Composites,5,Mechanical Engineering
 PHY F101,Oscillations and Waves,3,Physics
+PHY F110,Physics Laboratory,1,Physics
+PHY F111,"Mechanics, Oscillations and Waves",3,Physics
 PHY F211,Classical Mechanics,4,Physics
 PHY F212,Electromagnetic Theory I,3,Physics
 PHY F213,Optics,3,Physics
@@ -575,9 +586,9 @@ PHY F491,Special Project,3,Physics
 PHY G513,Classical Electrodynamic,4,Physics
 PHY G514,Quantum Theory and Applications,4,Physics
 PHY G516,Statistical Physics & Applications,4,Physics
-PHY U101,Classical and Quantum Waves,7,Physics
-PHY U102,Introduction to Classical and Quantum Waves,7,Physics
-PHY U110,Physics Laboratory,3,Physics
+PHY U101,Classical and Quantum Waves,3,Physics
+PHY U102,Introduction to Classical and Quantum Waves,3,Physics
+PHY U110,Physics Laboratory,2,Physics
 QT G511,Mathematical Foundations of Quantum Theory,4,Physics
 QT G512,Quantum Computing and Information,4,Physics
 QT G513,Overview of Hardware for Quantum Technologies,2,Physics

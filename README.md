@@ -5,11 +5,17 @@
 
 A full-stack CGPA tracker for BITS Pilani, Goa Campus students. Build semesters, add courses from the campus catalogue, record grades, and see credit-weighted SGPA and CGPA values.
 
+## Live deployment
+
+- **Website:** [cgpa-pilot-bpgc.vercel.app](https://cgpa-pilot-bpgc.vercel.app/)
+- **API:** [cgpa-pilot-bpgc-api.onrender.com](https://cgpa-pilot-bpgc-api.onrender.com/)
+- **Health check:** [cgpa-pilot-bpgc-api.onrender.com/api/health](https://cgpa-pilot-bpgc-api.onrender.com/api/health)
+
 ## Features
 
 - Register, log in, and log out with JWT authentication in an HTTP-only cookie.
 - Create, edit, order, and delete semesters.
-- Search a seeded catalogue of 590 BITS Goa courses by code or name.
+- Search a seeded catalogue of 601 BITS Goa courses by code or name.
 - Add courses, select grades, and remove courses from a semester.
 - Calculate SGPA and CGPA using course credits; ungraded courses are ignored.
 - Keep every student's semester data isolated through server-side ownership checks.
@@ -79,6 +85,23 @@ Open `http://localhost:3000`. The API runs at `http://localhost:5000`.
 
 Never commit real `.env` files or credentials.
 
+## API overview
+
+All routes use the `/api` prefix. Protected routes authenticate through the HTTP-only `auth_token` cookie.
+
+| Method | Route | Authentication | Purpose |
+| --- | --- | --- | --- |
+| `GET` | `/api/health` | No | Check whether the API is running |
+| `POST` | `/api/auth/register` | No | Create an account and authentication cookie |
+| `POST` | `/api/auth/login` | No | Log in and create an authentication cookie |
+| `POST` | `/api/auth/logout` | No | Clear the authentication cookie |
+| `GET` | `/api/auth/me` | Yes | Return the logged-in user |
+| `GET` | `/api/courses?search=` | No | Search courses by code or name |
+| `GET`, `POST` | `/api/semesters` | Yes | List or create semesters |
+| `GET`, `PATCH`, `DELETE` | `/api/semesters/:id` | Yes | Read, edit, or delete a semester |
+| `GET`, `POST` | `/api/semesters/:id/courses` | Yes | List or add courses in a semester |
+| `PATCH`, `DELETE` | `/api/semester-courses/:semesterCourseId` | Yes | Update a grade or remove a selected course |
+
 ## Data and calculations
 
 The database stores users, the shared course catalogue, user-owned semesters, and the courses and grades selected within each semester.
@@ -102,7 +125,14 @@ npm run build
 
 ## Deployment
 
-The project is prepared for a Vercel frontend, Render backend, and Supabase PostgreSQL database. Set `SERVER_API_URL` on Vercel and the server variables listed above on Render.
+The frontend is deployed on Vercel, the Express API runs on Render, and PostgreSQL is hosted by Supabase. Production requests travel through the Next.js `/api` proxy so authentication cookies remain first-party.
+
+## What I learned
+
+- How to design a relational, credit-weighted semester and course model with ownership checks.
+- How to implement cookie-based JWT authentication securely across Next.js and Express.
+- How to validate source data instead of confusing timetable credit hours with academic credits.
+- How to deploy and connect a Vercel frontend, Render API, and Supabase database.
 
 ## Database schema
 
