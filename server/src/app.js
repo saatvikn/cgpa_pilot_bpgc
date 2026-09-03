@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import {
     errorHandler,
@@ -11,6 +12,9 @@ import semesterCourseRouter from "./routes/semester-course.routes.js";
 import semesterRouter from "./routes/semester.routes.js";
 
 const app = express();
+
+// Security headers.
+app.use(helmet());
 
 const clientUrl = process.env.CLIENT_URL || "http://localhost:3000";
 

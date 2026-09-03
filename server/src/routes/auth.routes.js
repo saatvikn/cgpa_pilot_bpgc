@@ -6,23 +6,20 @@ import {
     logoutUser,
     registerUser,
 } from "../controllers/auth.controller.js";
+import { authRateLimiter } from "../middleware/rate-limit.middleware.js";
 
 const authRouter = Router();
 
 // New user registration.
-authRouter.post("/register", registerUser);
+authRouter.post("/register", authRateLimiter, registerUser);
 
 // Existing user login.
-authRouter.post("/login", loginUser);
+authRouter.post("/login", authRateLimiter, loginUser);
 
 // Clear the authentication cookie.
 authRouter.post("/logout", logoutUser);
 
 // Return the authenticated user.
-authRouter.get(
-    "/me",
-    authenticateUser,
-    getCurrentUser
-);
+authRouter.get("/me", authenticateUser, getCurrentUser);
 
 export default authRouter;
