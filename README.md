@@ -9,7 +9,7 @@ A full-stack CGPA tracker for BITS Pilani, Goa Campus students. Build semesters,
 
 - Register, log in, and log out with JWT authentication in an HTTP-only cookie.
 - Create, edit, order, and delete semesters.
-- Search a seeded catalogue of 589 BITS Goa courses by code or name.
+- Search a seeded catalogue of 590 BITS Goa courses by code or name.
 - Add courses, select grades, and remove courses from a semester.
 - Calculate SGPA and CGPA using course credits; ungraded courses are ignored.
 - Keep every student's semester data isolated through server-side ownership checks.
